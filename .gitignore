@@ -70,5 +70,10 @@ phpunit
 #-------------------------
 vendor/
 
+#-------------------------
+# codeigniter4/devkit
+#-------------------------
+.php-cs-fixer.cache
+
 # Visual Studio Code
 .vscode/

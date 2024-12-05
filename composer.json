@@ -9,6 +9,18 @@
             "email": "christianberkman@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "codeigniter4/devkit": "^1.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "cs-fix": "php-cs-fixer --ansi fix",
+        "phpstan": "phpstan analyze -l 6 -c phpstan.neon"
+    }
 }
