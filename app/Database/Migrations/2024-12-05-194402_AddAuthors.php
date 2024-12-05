@@ -6,22 +6,22 @@ use CodeIgniter\Database\Migration;
 
 class AddAuthors extends Migration
 {
-    public function up()
+    public function up(): void
     {
         /**
          * Table: authors
          */
         $this->forge->addField([
             'author_id' => [
-                'type' => 'MEDIUMINT',
+                'type'           => 'MEDIUMINT',
                 'auto_increment' => true,
-                'null' => false,
+                'null'           => false,
             ],
             'name' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 128,
-                'null' => false,
-            ]
+                'null'       => false,
+            ],
         ]);
 
         $this->forge->addPrimaryKey('author_id');
@@ -32,9 +32,9 @@ class AddAuthors extends Migration
          */
         $this->forge->addField([
             'rid' => [
-                'type' => 'MEDIUMINT',
+                'type'           => 'MEDIUMINT',
                 'auto_increment' => true,
-                'null' => false,
+                'null'           => false,
             ],
             'book_id' => [
                 'type' => 'MEDIUMINT',
@@ -53,10 +53,10 @@ class AddAuthors extends Migration
         $this->forge->createTable('books_authors');
     }
 
-    public function down()
-    {        
+    public function down(): void
+    {
         $this->forge->dropTable('books_authors');
-        
+
         $this->forge->dropTable('authors');
     }
 }

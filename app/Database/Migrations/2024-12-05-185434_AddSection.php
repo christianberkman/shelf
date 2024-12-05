@@ -8,7 +8,7 @@ class AddSection extends Migration
 {
     public function up(): void
     {
-        /** 
+        /**
          * Table: sections
          */
         $this->forge->addField([
@@ -36,9 +36,9 @@ class AddSection extends Migration
          */
         $booksFields = [
             'section_id' => [
-                'type' => 'VARCHAR', 
+                'type'       => 'VARCHAR',
                 'constraint' => 5,
-                'null' => false,
+                'null'       => false,
             ],
         ];
 
@@ -51,8 +51,7 @@ class AddSection extends Migration
     {
         $this->forge->dropForeignKey('books', 'books_section_id_foreign');
         $this->forge->dropColumn('books', 'section_id');
-        
-        $this->forge->dropTable('sections');
 
+        $this->forge->dropTable('sections');
     }
 }

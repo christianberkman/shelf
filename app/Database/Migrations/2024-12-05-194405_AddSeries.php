@@ -6,21 +6,21 @@ use CodeIgniter\Database\Migration;
 
 class AddSeries extends Migration
 {
-    public function up()
+    public function up(): void
     {
         /**
          * Table: series
          */
         $this->forge->addField([
             'series_id' => [
-                'type' => 'MEDIUMINT',
+                'type'           => 'MEDIUMINT',
                 'auto_increment' => true,
-                'null' => false,
+                'null'           => false,
             ],
             'series_title' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null' => false,
+                'null'       => false,
             ],
             'note' => [
                 'type' => 'TEXT',
@@ -54,16 +54,16 @@ class AddSeries extends Migration
         ];
 
         $this->forge->addColumn('books', $booksFields);
-        
-        $this->forge->addForeignKey('series_id', 'series','series_id');
+
+        $this->forge->addForeignKey('series_id', 'series', 'series_id');
         $this->forge->processIndexes('books');
     }
 
-    public function down()
+    public function down(): void
     {
         $this->forge->dropForeignKey('books', 'books_series_id_foreign');
         $this->forge->dropColumn('books', 'series_id');
-        
+
         $this->forge->dropTable('series');
     }
 }

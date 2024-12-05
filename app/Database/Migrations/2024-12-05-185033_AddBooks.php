@@ -18,19 +18,19 @@ class AddBooks extends Migration
                 'null'           => false,
             ],
             'title' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null' => false,
+                'null'       => false,
             ],
             'subtitle' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null' => true,
+                'null'       => true,
             ],
             'part' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 16,
-                'null' => true,
+                'null'       => true,
             ],
             'count' => [
                 'type' => 'TINYINT',
@@ -55,14 +55,14 @@ class AddBooks extends Migration
             'deleted_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
-            ]
+            ],
         ]);
 
         $this->forge->addPrimaryKey('book_id');
         $this->forge->createTable('books');
     }
 
-    public function down()
+    public function down(): void
     {
         $this->forge->dropTable('books');
     }
