@@ -1,0 +1,14 @@
+{
+    "name": "christianberkman/shelf",
+    "description": "Software to manage a small library in an offline environment written in PHP.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Berkman",
+            "email": "christianberkman@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
