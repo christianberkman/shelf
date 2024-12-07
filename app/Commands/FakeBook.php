@@ -39,16 +39,9 @@ class FakeBook extends BaseCommand
     /**
      * The Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = ['number' => 'Number of books'];
-
-    /**
-     * The Command's Options
-     *
-     * @var array
-     */
-    protected $options = [];
 
     /**
      * Actually execute a command.

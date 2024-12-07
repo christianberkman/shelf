@@ -44,7 +44,7 @@ class AuthorModel extends Model
     /**
      * Fabricator
      *
-     * @return list<string>
+     * @return array<string, string>
      */
     public function fake(Generator &$faker): array
     {

@@ -39,18 +39,11 @@ class FakeAuhtor extends BaseCommand
     /**
      * The Command's Arguments
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $arguments = [
         'number' => 'Number of authors to fake',
     ];
-
-    /**
-     * The Command's Options
-     *
-     * @var array
-     */
-    protected $options = [];
 
     /**
      * Actually execute a command.

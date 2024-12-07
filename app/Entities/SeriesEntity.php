@@ -13,19 +13,20 @@ class SeriesEntity extends Entity
     /**
      * Set functions
      */
-    public function setSeriesTitle(string $value): self{
+    public function setSeriesTitle(string $value): self
+    {
         // Remove forbidden characters
         $value = preg_replace('/[\r\n]+/m', '', $value);
-        
+
         $this->attributes['series_title'] = strip_tags($value);
 
         return $this;
     }
-    
-     public function setNote(string $value): self{
+
+    public function setNote(string $value): self
+    {
         $this->attributes['note'] = trim(strip_tags($value));
+
         return $this;
     }
-
-    
 }
