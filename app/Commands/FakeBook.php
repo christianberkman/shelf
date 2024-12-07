@@ -53,6 +53,8 @@ class FakeBook extends BaseCommand
             $count = 1;
         }
 
+        CLI::write("Inserting {$count} fake books...");
+
         $bookModel = model('BookModel');
 
         $fabricator = new Fabricator($bookModel);
@@ -63,6 +65,7 @@ class FakeBook extends BaseCommand
         $booksAuthorsModel = model('BooksAuthorsModel');
         $authorIds         = $authorModel->findColumn('author_id');
 
+        $bookCount = 0;
         foreach ($books as $book) {
             $bookId = $bookModel->insert($book);
             if (! $bookId) {
@@ -85,7 +88,12 @@ class FakeBook extends BaseCommand
                     return EXIT_ERROR;
                 }
             }
+
+            $bookCount++;
+            CLI::showProgress($bookCount, $count);
         }
+
+        CLI::showProgress(false);
 
         if ($count === 1) {
             d($books[0]->toArray());
