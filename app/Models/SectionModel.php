@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class SectionModel extends Model
 {
     protected $table                  = 'sections';
-    protected $primaryKey             = 'id';
-    protected $useAutoIncrement       = true;
+    protected $primaryKey             = 'section_id';
+    protected $useAutoIncrement       = false;
     protected $returnType             = 'array';
     protected $useSoftDeletes         = false;
     protected $protectFields          = true;
-    protected $allowedFields          = [];
+    protected $allowedFields          = ['name'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
     protected array $casts            = [];
@@ -26,7 +26,10 @@ class SectionModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules = [
+        'section_id' => 'required|string',
+        'name'       => 'required|string',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
