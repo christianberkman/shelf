@@ -5,6 +5,7 @@ namespace App\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 use CodeIgniter\Test\Fabricator;
+use Throwable;
 
 class FakeSection extends BaseCommand
 {
@@ -52,7 +53,7 @@ class FakeSection extends BaseCommand
         // Insert
         try {
             $insert = $sectionModel->insert($section);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             CLI::write('Error inserting section:', 'red');
             CLI::write("\t{$e->getMessage()}", 'red');
 

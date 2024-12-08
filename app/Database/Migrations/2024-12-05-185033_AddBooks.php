@@ -40,6 +40,11 @@ class AddBooks extends Migration
                 'type' => 'DECIMAL',
                 'null' => true,
             ],
+            'search_string' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 786,
+                'null'       => false,
+            ],
             'note' => [
                 'type' => 'TEXT',
                 'null' => true,

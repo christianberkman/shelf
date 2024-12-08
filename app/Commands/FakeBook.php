@@ -66,6 +66,7 @@ class FakeBook extends BaseCommand
         $authorIds         = $authorModel->findColumn('author_id');
 
         $bookCount = 0;
+
         foreach ($books as $book) {
             $bookId = $bookModel->insert($book);
             if (! $bookId) {
