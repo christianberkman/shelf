@@ -3,17 +3,14 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Entities\SeriesEntity;
 
 class BookEntity extends Entity
 {
-    protected $datamap = [];
-    protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
-    protected $casts   = [];
-    
+    protected $datamap              = [];
+    protected $dates                = ['created_at', 'updated_at', 'deleted_at'];
+    protected $casts                = [];
     protected ?SeriesEntity $series = null;
-
-    protected array $authors = [];
+    protected array $authors        = [];
     protected ?string $authorString = null;
 
     /**
@@ -118,6 +115,25 @@ class BookEntity extends Entity
         $this->authors = (model('AuthorModel'))->whereIn('author_Id', $authorIds)->findALl();
 
         return $this->authors;
+    }
+
+    /**
+     * Return a compiled title including subtitle, series, part
+     */
+    public function getDisplayTitle(): string
+    {
+        $displayTitle = $this->attributes['title'];
+        if (! empty($this->attributes['subtitle'])) {
+            $displayTitle .= "; {$this->attributes['subtitle']}";
+        }
+        if (! empty($this->getSeriesTitle())) {
+            $displayTitle .= " ({$this->getSeriesTitle()})";
+        }
+        if (! empty($this->attributes['part'])) {
+            $displayTitle .= " part {$this->attributes['part']}";
+        }
+
+        return $displayTitle;
     }
 
     /**
