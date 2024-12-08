@@ -77,3 +77,8 @@ vendor/
 
 # Visual Studio Code
 .vscode/
+
+#-------------------------
+# Shelf
+#-------------------------
+app/Commands/Test.php
