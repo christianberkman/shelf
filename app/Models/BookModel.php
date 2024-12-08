@@ -60,6 +60,14 @@ class BookModel extends Model
     protected array $seriesIds  = [];
 
     /**
+     * Find book by [books.search_string]
+     */
+    public function searchString(string $query): self
+    {
+        return $this->like('search_string', $query);
+    }
+
+    /**
      * Fabricator
      *
      * @return array<string, mixed>
