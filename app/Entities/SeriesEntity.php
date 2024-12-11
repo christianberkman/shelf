@@ -15,10 +15,7 @@ class SeriesEntity extends Entity
      */
     public function setSeriesTitle(string $value): self
     {
-        // Remove forbidden characters
-        $value = preg_replace('/[\r\n]+/m', '', $value);
-
-        $this->attributes['series_title'] = strip_tags($value);
+        $this->attributes['series_title'] = formatAsTitle($value);
 
         return $this;
     }

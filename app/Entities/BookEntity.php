@@ -22,8 +22,10 @@ class BookEntity extends Entity
      */
     public function setTitle($value): self
     {
-        $this->attributes['title'] = strip_tags($value);
+        // Move article to end of title
+        $this->attributes['title'] = formatAsTitle($value);
 
+        // Update search string
         $this->attributes['search_string'] = $this->getSearchString();
 
         return $this;
@@ -31,7 +33,7 @@ class BookEntity extends Entity
 
     public function setSubtitle($value): self
     {
-        $this->attributes['subtitle'] = strip_tags($value);
+        $this->attributes['subtitle'] = formatAsTitle($value);
 
         $this->attributes['search_string'] = $this->getSearchString();
 
@@ -62,7 +64,7 @@ class BookEntity extends Entity
             return $this->series;
         }
 
-        if (! array_key_exists('series_id', $this->attributes)) {
+        if (! array_key_exists('series_id', $this->attributes) || $this->attributes['series_id'] === null) {
             return null;
         }
 
