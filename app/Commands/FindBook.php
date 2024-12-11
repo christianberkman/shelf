@@ -43,13 +43,13 @@ class FindBook extends BaseCommand
         CLI::write('Find a book');
 
         $bookModel = model('BookModel');
-        $listItem  = 0;
+        $listItem  = '0';
 
         // Query and get options
         while ($listItem === '0') {
             $query = CLI::prompt("\tQuery");
 
-            $books = $bookModel->searchString($query)->findALl(5);
+            $books = $bookModel->searchString($query)->orderBy('search_string')->findAll(5);
 
             // Create list of options
             $listItems   = [];
