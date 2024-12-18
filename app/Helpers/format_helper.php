@@ -83,26 +83,26 @@ if (! function_exists('formatAsAuthor')) {
         // Sanitize
         $author = sanitizeString($value);
 
+        // Remove double spaces
+        $author = preg_replace('/(\s)+/', ' ', $author);
+
+        // Add space after comma
+        $author = preg_replace('/,([a-zA-Z])/', ', $1', $author);
+
         // Capitalize first in every word
-        $author = ucwords($value);
+        $author = ucwords($author, ' -/');
 
-        // Move surname before initials
-        $author = preg_replace('/^(([A-Z]\.?\s?)+)\s(.+)$/', '$3, $1', $author);
+        // Make initials
+        $author = preg_replace(('/\b([A-Z])\b\.?/'), '$1.', $author);
 
-        // Convert single letters to initials
-        $author = preg_replace(('/\b([a-zA-Z])\b/'), '$1.', $author);
-
-        // Remove whitespace from initials
-        $author = preg_replace('/([A-Z])\. /m', '$1.', $author);
-
-        // Remove double whitespace
-        $author = preg_replace('/\s+/', ' ', $author);
-
-        // Remove double full stop
-        $author = preg_replace('/\.\./', '.', $author);
+        // Move initials behind surname
+        $author = preg_replace('/^(([A-Z]\. )+)(.*)/', '$3, $1', $author);
 
         // Add comma after surname
-        $author = preg_replace('/^([\w\s]+)\s([A-Z](?:\.|\s[A-Z](?:\.|$))+)$/', '$1, $2', $author);
+        $author = preg_replace('/( ?([A-Z]\. ?)+)$/', ',$1', $author);
+
+        // Remove double comma
+        $author = preg_replace('/,,/', ',', $author);
 
         // Trim
         return trim($author);

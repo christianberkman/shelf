@@ -21,6 +21,7 @@
     },
     "scripts": {
         "cs-fix": "php-cs-fixer --ansi fix",
-        "phpstan": "phpstan analyze -l 6 -c phpstan.neon"
+        "phpstan": "phpstan analyze -l 6 -c phpstan.neon",
+        "test": "phpunit"
     }
 }
