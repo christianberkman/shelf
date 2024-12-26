@@ -82,3 +82,4 @@ vendor/
 # Shelf
 #-------------------------
 app/Commands/Test.php
+build/*

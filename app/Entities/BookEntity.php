@@ -23,7 +23,7 @@ class BookEntity extends Entity
     public function setTitle($value): self
     {
         // Move article to end of title
-        $this->attributes['title'] = formatAsTitle($value);
+        $this->attributes['title'] = sortableTitle($value);
 
         // Update search string
         $this->attributes['search_string'] = $this->getSearchString();
@@ -33,7 +33,7 @@ class BookEntity extends Entity
 
     public function setSubtitle($value): self
     {
-        $this->attributes['subtitle'] = formatAsTitle($value);
+        $this->attributes['subtitle'] = sortableTitle($value);
 
         $this->attributes['search_string'] = $this->getSearchString();
 

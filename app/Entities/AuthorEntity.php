@@ -16,7 +16,7 @@ class AuthorEntity extends Entity
      */
     public function setName(string $value): self
     {
-        $this->attributes['name'] = formatAsAuthor($value);
+        $this->attributes['name'] = sortableAuthor($value);
 
         return $this;
     }

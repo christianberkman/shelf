@@ -15,7 +15,7 @@ class SeriesEntity extends Entity
      */
     public function setSeriesTitle(string $value): self
     {
-        $this->attributes['series_title'] = formatAsTitle($value);
+        $this->attributes['series_title'] = sortableTitle($value);
 
         return $this;
     }

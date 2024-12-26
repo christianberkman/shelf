@@ -23,5 +23,8 @@
         "cs-fix": "php-cs-fixer --ansi fix",
         "phpstan": "phpstan analyze -l 6 -c phpstan.neon",
         "test": "phpunit"
+    },
+    "require": {
+        "christianberkman/book-format": "^1.0"
     }
 }
