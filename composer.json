@@ -25,6 +25,7 @@
         "test": "phpunit"
     },
     "require": {
-        "christianberkman/sortable-book": "^1.0"
+        "christianberkman/sortable-book": "^1.0",
+        "twitter/bootstrap": "^5.3"
     }
 }
