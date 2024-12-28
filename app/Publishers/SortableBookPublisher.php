@@ -6,17 +6,17 @@ use CodeIgniter\Publisher\Publisher;
  * Publishes the composer package christianberkma/bookf-format to app/Libraries
  */
 
- class BookFormatPublisher extends Publisher
+ class SortableBookPublisher extends Publisher
  {
     
-    protected $source = VENDORPATH . 'christianberkman/book-format/src/';
+    protected $source = VENDORPATH . 'christianberkman/sortable-book/src/';
     
     protected $destination = APPPATH . 'Libraries/';
 
     public function publish(): bool
     {
         return $this
-            ->addFile($this->source . 'book-format.php')
+            ->addFile($this->source . 'sortable-book.php')
             ->merge(true);
     }
  }

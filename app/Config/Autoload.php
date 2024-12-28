@@ -77,7 +77,7 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $files = [APPPATH . 'Libraries/book-format.php'];
+    public $files = [APPPATH . 'Libraries/sortable-book.php'];
 
     /**
      * -------------------------------------------------------------------
