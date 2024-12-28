@@ -81,11 +81,6 @@ vendor/
 #-------------------------
 # Shelf
 #-------------------------
-public/assets/bootstrap/*
-!public/assets/bootstrap/.gitkeep
-public/assets/bootstrap-icons/*
-!public/assets/bootstrap-icons/.gitkeep
-
 app/Commands/Test.php
 
 app/Libraries/*
