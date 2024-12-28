@@ -26,6 +26,7 @@
     },
     "require": {
         "christianberkman/sortable-book": "^1.0",
-        "twitter/bootstrap": "^5.3"
+        "twitter/bootstrap": "^5.3",
+        "twbs/bootstrap-icons": "^1.11"
     }
 }
