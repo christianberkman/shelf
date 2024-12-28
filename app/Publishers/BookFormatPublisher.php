@@ -9,14 +9,14 @@ use CodeIgniter\Publisher\Publisher;
  class BookFormatPublisher extends Publisher
  {
     
-    protected $source = VENDORPATH . 'christianberkman/book-format/src/';
+    protected $source = VENDORPATH . 'christianberkman/sortable-book/src/';
     
     protected $destination = APPPATH . 'Libraries/';
 
     public function publish(): bool
     {
         return $this
-            ->addFile($this->source . 'book-format.php')
+            ->addFile($this->source . 'sortable-book.php')
             ->merge(true);
     }
  }
