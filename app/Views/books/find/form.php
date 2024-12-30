@@ -1,6 +1,6 @@
 <?php
 $this->extend('layout');
-$this->section('body'); 
+$this->section('body');
 ?>
 
 <div class="row">
@@ -15,7 +15,7 @@ $this->section('body');
     </div><!--/col-->
 </div><!--/row-->
 <?php
-$this->endSection(); 
+$this->endSection();
 $this->section('script');
 ?>
 <script>
@@ -30,15 +30,15 @@ $this->section('script');
             if(currentRequest) {
                 currentRequest.abort();
             }
-            
+
             // Remove previous results
             bookResults.html('<em>Finding books...</em>')
-            
+
             let query = $(this).val()
             currentRequest = $.getJSON('/books/findAjax?max=10&q='+query, function(data){
                 // No results or query too short
                 switch(data.msg){
-                    case 'query-too-short': 
+                    case 'query-too-short':
                         bookResults.html('<p><strong>Query is too short</strong></p>')
                         return;
                     case 'no-results':
@@ -46,7 +46,7 @@ $this->section('script');
                         return;
                     break;
                 }
-                
+
                 // Results!
                 bookResults.html(template(data));
             });

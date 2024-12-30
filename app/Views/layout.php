@@ -14,7 +14,7 @@
                 <i class="bi bi-bookshelf"></i> Shelf
             </a>
         </div><!--/container-fluid-->
-    </nav>  
+    </nav>
 
     <div class="container mt-3" id="body-container">
       <?php $this->renderSection('body'); ?>
