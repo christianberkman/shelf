@@ -9,6 +9,8 @@
                 <h2 class="card-heading text-center mb-3">
                     <i class="bi bi-book"></i> Books
                 </h2>
+
+                <p class="text-center"><?=bookCount();?> titles, <?=copyCount();?> copies</p>
             
                 <a href="/books/find" class="btn btn-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find a book
@@ -27,6 +29,8 @@
                     <i class="bi bi-link"></i> Series
                 </h2>
             
+                <p class="text-center"><?=seriesCount();?> series</p>
+
                 <a href="/series/find" class="btn btn-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find a series
                 </a>
@@ -43,6 +47,8 @@
                 <h2 class="card-heading mb-3 text-center">
                     <i class="bi bi-person"></i> Authors
                 </h2>
+
+                <p class="text-center"><?=authorCount();?> authors</p>
             
                 <a href="/authors/find" class="btn btn-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find an author
@@ -60,6 +66,8 @@
                 <h2 class="card-heading mb-3 text-center">
                     <i class="bi bi-col mb-3lection"></i> Sections
                 </h2>
+
+                <p class="text-center"><?=sectionCount();?> sections</p>
             
                 <a href="/sections/" class="btn btn-primary btn-lg w-100">
                     <i class="bi bi-gear"></i> Manage Sections
