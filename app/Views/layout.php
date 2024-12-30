@@ -17,7 +17,7 @@
     </nav>
 
     <div class="container mt-3 mb-3" id="body-container">
-      <?php echo view('breadcrumbs', ['crumbs' => $crumbs ?? [], 'current' => $current ?? null]); ?>
+      <?= view('breadcrumbs', ['crumbs' => $crumbs ?? [], 'current' => $current ?? null]); ?>
       <?php $this->renderSection('body'); ?>
     </div>
 

@@ -64,13 +64,13 @@ $this->section('body');
         <div class="card bg-light">
             <div class="card-body">
                 <h2 class="card-heading mb-3 text-center">
-                    <i class="bi bi-col mb-3lection"></i> Sections
+                    <i class="bi bi-collection"></i> Sections
                 </h2>
 
                 <p class="text-center"><?= sectionCount(); ?> sections</p>
 
                 <a href="/sections/" class="btn btn-outline-primary btn-lg w-100">
-                    <i class="bi bi-gear"></i> Manage Sections
+                    <i class="bi bi-eye"></i> View sections
                 </a>
             </div>
         </div><!--/card-->

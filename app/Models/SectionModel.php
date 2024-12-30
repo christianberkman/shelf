@@ -9,7 +9,7 @@ class SectionModel extends Model
     protected $table                  = 'sections';
     protected $primaryKey             = 'section_id';
     protected $useAutoIncrement       = false;
-    protected $returnType             = 'array';
+    protected $returnType             = 'object';
     protected $useSoftDeletes         = false;
     protected $protectFields          = true;
     protected $allowedFields          = ['name'];
