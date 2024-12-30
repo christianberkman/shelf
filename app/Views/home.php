@@ -12,10 +12,10 @@ $this->section('body');
 
                 <p class="text-center"><?= bookCount(); ?> titles, <?= copyCount(); ?> copies</p>
 
-                <a href="/books/find" class="btn btn-primary btn-lg w-100">
+                <a href="/books/find" class="btn btn-outline-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find a book
                 </a>
-                <a href="/books/new" class="btn btn-success btn-lg w-100 mt-3">
+                <a href="/books/new" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <i class="bi bi-plus"></i> Add a book
                 </a>
             </div>
@@ -31,10 +31,10 @@ $this->section('body');
 
                 <p class="text-center"><?= seriesCount(); ?> series</p>
 
-                <a href="/series/find" class="btn btn-primary btn-lg w-100">
+                <a href="/series/find" class="btn btn-outline-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find a series
                 </a>
-                <a href="/series/new" class="btn btn-success btn-lg w-100 mt-3">
+                <a href="/series/new" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <i class="bi bi-plus"></i> Add a series
                 </a>
             </div>
@@ -50,10 +50,10 @@ $this->section('body');
 
                 <p class="text-center"><?= authorCount(); ?> authors</p>
 
-                <a href="/authors/find" class="btn btn-primary btn-lg w-100">
+                <a href="/authors/find" class="btn btn-outline-primary btn-lg w-100">
                     <i class="bi bi-search"></i> Find an author
                 </a>
-                <a href="/authors/new" class="btn btn-success btn-lg w-100 mt-3">
+                <a href="/authors/new" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <i class="bi bi-plus"></i> Add an author
                 </a>
             </div>
@@ -69,7 +69,7 @@ $this->section('body');
 
                 <p class="text-center"><?= sectionCount(); ?> sections</p>
 
-                <a href="/sections/" class="btn btn-primary btn-lg w-100">
+                <a href="/sections/" class="btn btn-outline-primary btn-lg w-100">
                     <i class="bi bi-gear"></i> Manage Sections
                 </a>
             </div>

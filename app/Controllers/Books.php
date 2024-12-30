@@ -6,7 +6,11 @@ class Books extends BaseController
 {
     public function find()
     {
-        return view('books/find/form');
+        $data = [
+            'current' => 'Find a book',
+        ];
+
+        return view('books/find/form', $data);
     }
 
     public function findAjax()
