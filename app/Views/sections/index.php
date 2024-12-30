@@ -2,7 +2,7 @@
 <?php $this->section('body'); ?>
 <div class="row">
     <div class="col mb-3">
-        <h1><i class="bi bi-collection"></i> Sections</h1>
+        <h1><?=bi('collection'); ?> Sections</h1>
     </div>
 </div><!--/row-->
 
@@ -17,11 +17,11 @@
                 <p class="text-center"><?=bookCount($section->section_id); ?> books, <?=copyCount($section->section_id); ?> copies</p>
 
                 <a href="<?=site_url("/sections/{$section->section_id}/browse"); ?>" class="btn btn-outline-primary w-100 mb-3">
-                    <i class="bi bi-search"></i> Browse
+                    <?=bi('search'); ?> Browse
                 </a>
 
                 <a href="<?=site_url("/sections/{$section->section_id}"); ?>" class="btn btn-outline-secondary w-100 mb-3">
-                    <i class="bi bi-gear"></i> Manage
+                    <?=bi('manage'); ?> Manage
                 </a>
             </div>
         </div><!--/card-->

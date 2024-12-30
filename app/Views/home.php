@@ -7,16 +7,16 @@ $this->section('body');
         <div class="card bg-light">
             <div class="card-body">
                 <h2 class="card-heading text-center mb-3">
-                    <i class="bi bi-book"></i> Books
+                    <?= bi('book'); ?> Books
                 </h2>
 
                 <p class="text-center"><?= bookCount(); ?> titles, <?= copyCount(); ?> copies</p>
 
                 <a href="/books/find" class="btn btn-outline-primary btn-lg w-100">
-                    <i class="bi bi-search"></i> Find a book
+                    <?= bi('search'); ?> Find a book
                 </a>
                 <a href="/books/new" class="btn btn-outline-success btn-lg w-100 mt-3">
-                    <i class="bi bi-plus"></i> Add a book
+                    <?= bi('add'); ?> Add a book
                 </a>
             </div>
         </div><!--/card-->
@@ -26,16 +26,16 @@ $this->section('body');
         <div class="card bg-light">
             <div class="card-body">
                 <h2 class="card-heading text-center mb-3">
-                    <i class="bi bi-link"></i> Series
+                    <?= bi('link'); ?> Series
                 </h2>
 
                 <p class="text-center"><?= seriesCount(); ?> series</p>
 
                 <a href="/series/find" class="btn btn-outline-primary btn-lg w-100">
-                    <i class="bi bi-search"></i> Find a series
+                    <?= bi('search'); ?> Find a series
                 </a>
                 <a href="/series/new" class="btn btn-outline-success btn-lg w-100 mt-3">
-                    <i class="bi bi-plus"></i> Add a series
+                    <?= bi('add'); ?> Add a series
                 </a>
             </div>
         </div><!--/card-->
@@ -45,16 +45,16 @@ $this->section('body');
         <div class="card bg-light">
             <div class="card-body">
                 <h2 class="card-heading mb-3 text-center">
-                    <i class="bi bi-person"></i> Authors
+                    <?= bi('person'); ?> Authors
                 </h2>
 
                 <p class="text-center"><?= authorCount(); ?> authors</p>
 
                 <a href="/authors/find" class="btn btn-outline-primary btn-lg w-100">
-                    <i class="bi bi-search"></i> Find an author
+                    <?= bi('search'); ?> Find an author
                 </a>
                 <a href="/authors/new" class="btn btn-outline-success btn-lg w-100 mt-3">
-                    <i class="bi bi-plus"></i> Add an author
+                    <?= bi('add'); ?> Add an author
                 </a>
             </div>
         </div><!--/card-->
@@ -64,13 +64,13 @@ $this->section('body');
         <div class="card bg-light">
             <div class="card-body">
                 <h2 class="card-heading mb-3 text-center">
-                    <i class="bi bi-collection"></i> Sections
+                    <?= bi('collection'); ?> Sections
                 </h2>
 
                 <p class="text-center"><?= sectionCount(); ?> sections</p>
 
                 <a href="/sections/" class="btn btn-outline-primary btn-lg w-100">
-                    <i class="bi bi-eye"></i> View sections
+                    <?= bi('view'); ?> View sections
                 </a>
             </div>
         </div><!--/card-->

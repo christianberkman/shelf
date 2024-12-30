@@ -11,7 +11,7 @@
     <nav class="navbar bg-primary bg-gradient">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="/">
-                <i class="bi bi-bookshelf"></i> Shelf
+                <?= bi('bookshelf'); ?> Shelf
             </a>
         </div><!--/container-fluid-->
     </nav>
