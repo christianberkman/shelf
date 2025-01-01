@@ -21,4 +21,5 @@ $routes->group('books', static function ($routes) {
 $routes->group('sections', static function ($routes) {
     $routes->get('/', 'Sections::index');
     $routes->get('(:segment)', 'Sections::view/$1');
+    $routes->post('(:segment)', 'Sections::update/$1');
 });

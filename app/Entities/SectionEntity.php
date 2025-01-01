@@ -14,7 +14,14 @@ class SectionEntity extends Entity
      */
     public function setName(string $value): self
     {
-        $this->attributes['name'] = strip_tags(ucfirst($value));
+        $this->attributes['name'] = htmlspecialchars($value);
+
+        return $this;
+    }
+
+    public function setNote(string $value): self
+    {
+        $this->attributes['note'] = htmlspecialchars($value);
 
         return $this;
     }

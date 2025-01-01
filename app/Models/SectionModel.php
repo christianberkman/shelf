@@ -9,10 +9,10 @@ class SectionModel extends Model
     protected $table                  = 'sections';
     protected $primaryKey             = 'section_id';
     protected $useAutoIncrement       = false;
-    protected $returnType             = 'object';
+    protected $returnType             = \App\Entities\SectionEntity::class;
     protected $useSoftDeletes         = false;
     protected $protectFields          = true;
-    protected $allowedFields          = ['name'];
+    protected $allowedFields          = ['name', 'note'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
     protected array $casts            = [];
