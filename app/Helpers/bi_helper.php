@@ -14,6 +14,9 @@ if (! function_exists('bi')) {
 
         $icon = match ($alias) {
             'add'      => 'plus',
+            'check'    => 'check-lg',
+            'delete'   => 'trash',
+            'find'     => 'search',
             'manage'   => 'gear',
             'sections' => 'collection',
             'view'     => 'eye',

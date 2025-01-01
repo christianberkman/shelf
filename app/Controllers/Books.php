@@ -4,6 +4,32 @@ namespace App\Controllers;
 
 class Books extends BaseController
 {
+  
+    /**
+     * GET /books/$bookId
+     */
+    public function view(int $bookId)
+    {
+        $bookModel = model('BookModel');
+
+        $book = $bookModel->find($bookId);
+        if($book === null) throw new \Exception("Book with ID {$bookId} does not exist");
+
+        $data = [
+            'crumbs' => [
+                ['Find a book', '/books/find'],
+            ],
+            'current' => $book->title,
+            'book' => $book,
+        ];
+
+        return view('books/view', $data);
+
+    }
+    
+    /**
+     * GET /books/find
+     */
     public function find()
     {
         $data = [
@@ -13,6 +39,9 @@ class Books extends BaseController
         return view('books/find/form', $data);
     }
 
+    /**
+     * GET /findAjax
+     */
     public function findAjax()
     {
         // Query

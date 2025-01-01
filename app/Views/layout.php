@@ -6,6 +6,9 @@
     <title>Shelf</title>
     <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="/assets/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style type="text/css">
+      .form-label{font-weight: bold;}
+    </style>
   </head>
   <body>
     <nav class="navbar bg-primary bg-gradient">

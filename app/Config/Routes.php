@@ -13,6 +13,8 @@ $routes->get('/', 'Home::index');
 $routes->group('books', static function ($routes) {
     $routes->get('find', 'Books::find');
     $routes->get('findAjax', 'Books::findAjax');
+
+    $routes->get('(:segment)', 'Books::view/$1');
 });
 
 /**
