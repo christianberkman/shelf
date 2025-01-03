@@ -6,6 +6,17 @@ use Exception;
 
 class Sections extends BaseController
 {
+    protected function getSection(string $sectionId)
+    {
+        $section = (model('SectionModel'))->find($sectionId);
+
+        if ($section === null) {
+            throw new Exception("Section with ID {$sectionId} does not exist");
+        }
+
+        return $section;
+    }
+
     /**
      * GET /sections
      */
@@ -27,11 +38,7 @@ class Sections extends BaseController
      */
     public function view(string $sectionId)
     {
-        $sectionModel = model('SectionModel');
-        $section      = $sectionModel->find($sectionId);
-        if ($section === null) {
-            throw new Exception('Section does not exist');
-        }
+        $section = $this->getSection($sectionId);
 
         $data = [
             'section' => $section,
@@ -49,17 +56,13 @@ class Sections extends BaseController
      */
     public function update(string $sectionId)
     {
-        $sectionModel = model('SectionModel');
-        $section      = $sectionModel->find($sectionId);
-        if ($section === null) {
-            throw new Exception('Section does not exist');
-        }
+        $section = $this->getSection($sectionId);
 
         $section->name = $this->request->getPost('name');
         $section->note = $this->request->getPost('note');
 
         if ($section->hasChanged()) {
-            $update = $sectionModel->update($sectionId, $section);
+            $update = (model('SectionModel'))->update($sectionId, $section);
             if ($update) {
                 return redirect()->back()->with('alert', 'success');
             }

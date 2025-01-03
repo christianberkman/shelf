@@ -6,18 +6,28 @@ use Exception;
 
 class Authors extends BaseController
 {
+    protected $model;
+    protected $author;
+
+    private function getAuthor(int $authorId)
+    {
+        $author = (model('AuthorModel'))->find($authorId);
+
+        if ($author === null) {
+            throw new Exception("Author with ID {$authorId} does not exist");
+        }
+
+        return $author;
+    }
+
     /**
      * GET /authors/$authorId
      */
     public function view(int $authorId)
     {
-        $authorModel = model('AuthorModel');
-        $author      = $authorModel->find($authorId);
-        if ($author === null) {
-            throw new Exception("Author with ID {$authorId} does not exist");
-        }
+        $author = $this->getAuthor($authorId);
 
-        $bookIds = (model('BooksAuthorsModel'))->where('author_id', $authorId)->findColumn('book_id');
+        $bookIds = (model('BooksAuthorsModel'))->where('author_id', $author->author_id)->findColumn('book_id');
         $books   = (model('BookModel'))->whereIn('book_id', $bookIds)->findAll();
 
         $data = [
@@ -37,16 +47,12 @@ class Authors extends BaseController
      */
     public function update(int $authorId)
     {
-        $authorModel = model('AuthorModel');
-        $author      = $authorModel->find($authorId);
-        if ($author === null) {
-            throw new Exception("Author with ID {$authorId} does not exist");
-        }
+        $author = $this->getAuthor($authorId);
 
         $author->name = $this->request->getPost('name');
 
         if ($author->hasChanged()) {
-            $update = $authorModel->update($authorId, $author);
+            $update = (model('AuthorModel'))->update($authorId, $author);
             if ($update) {
                 return redirect()->back()->with('alert', 'success');
             }
@@ -62,13 +68,9 @@ class Authors extends BaseController
      */
     public function delete(int $authorId)
     {
-        $authorModel = model('AuthorModel');
-        $author      = $authorModel->find($authorId);
-        if ($author === null) {
-            throw new Exception("Author with ID {$authorId} does not exist");
-        }
+        $author = $this->getAuthor($authorId);
 
-        if ($author->bookCount < 0) {
+        if ($author->bookCount > 0) {
             throw new Exception('Author is attached to one or more books');
         }
 
@@ -111,14 +113,13 @@ class Authors extends BaseController
         }
 
         // Find
-        $authorModel = model('AuthorModel');
-        $words       = explode(' ', $query);
+        $words = explode(' ', $query);
 
         foreach ($words as $word) {
-            $authorModel->like('name', $word);
+            (model('AuthorModel'))->like('name', $word);
         }
-        $authorModel->orderBy('name');
-        $authors = $authorModel->findAll();
+        (model('AuthorModel'))->orderBy('name');
+        $authors = (model('AuthorModel'))->findAll();
 
         // No results
         if (count($authors) === 0) {

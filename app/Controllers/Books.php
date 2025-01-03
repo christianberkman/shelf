@@ -2,31 +2,39 @@
 
 namespace App\Controllers;
 
+use Exception;
+
 class Books extends BaseController
 {
-  
+    protected function getBook(int $bookId)
+    {
+        $book = (model('BookModel'))->find($bookId);
+
+        if ($book === null) {
+            throw new Exception("Book with ID {$bookId} does not exist");
+        }
+
+        return $book;
+    }
+
     /**
      * GET /books/$bookId
      */
     public function view(int $bookId)
     {
-        $bookModel = model('BookModel');
-
-        $book = $bookModel->find($bookId);
-        if($book === null) throw new \Exception("Book with ID {$bookId} does not exist");
+        $book = $this->getBook($bookId);
 
         $data = [
             'crumbs' => [
                 ['Find a book', '/books/find'],
             ],
             'current' => $book->title,
-            'book' => $book,
+            'book'    => $book,
         ];
 
         return view('books/view', $data);
-
     }
-    
+
     /**
      * GET /books/find
      */
