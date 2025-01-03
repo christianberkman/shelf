@@ -24,7 +24,7 @@
       <?php $this->renderSection('body'); ?>
     </div>
 
-    <script src="/assets/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/jquery/jquery-3.7.1.min.js"></script>
     <script src="/assets/handlebars/handlebars.min.js"></script>
     <?php $this->renderSection('script'); ?>
