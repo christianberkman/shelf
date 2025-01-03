@@ -2,7 +2,11 @@
 $this->extend('layout');
 $this->section('body');
 ?>
-
+<?= match (session('alert')) {
+    'delete-success' => alert('Success', 'Sucesfully deleted an author', 'success'),
+    default          => null,
+};
+?>
 <div class="row">
     <div class="col-lg-10 m-auto">
         <form method="get" action="/authors/find">
