@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ace8b3d74843e8d85c6f389e222b45b0",
+    "content-hash": "654bcca1ed808c10250528f4a3ffdcb7",
     "packages": [
         {
             "name": "christianberkman/sortable-book",
-            "version": "1.0.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/christianberkman/sortable-book.git",
-                "reference": "b76cc717c49e1db460751e05f2d6520b0ae4af84"
+                "reference": "c4fccec78d8e8ddc2a20e210e5334dd0ff153291"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christianberkman/sortable-book/zipball/b76cc717c49e1db460751e05f2d6520b0ae4af84",
-                "reference": "b76cc717c49e1db460751e05f2d6520b0ae4af84",
+                "url": "https://api.github.com/repos/christianberkman/sortable-book/zipball/c4fccec78d8e8ddc2a20e210e5334dd0ff153291",
+                "reference": "c4fccec78d8e8ddc2a20e210e5334dd0ff153291",
                 "shasum": ""
             },
             "require-dev": {
@@ -25,6 +25,7 @@
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^11.5"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -44,9 +45,9 @@
             "description": "Make the title and author sortable for use in a library inventory by moving the article and initials to the end of the string",
             "support": {
                 "issues": "https://github.com/christianberkman/sortable-book/issues",
-                "source": "https://github.com/christianberkman/sortable-book/tree/1.0.0"
+                "source": "https://github.com/christianberkman/sortable-book/tree/main"
             },
-            "time": "2024-12-28T12:51:53+00:00"
+            "time": "2025-01-03T19:40:47+00:00"
         },
         {
             "name": "twbs/bootstrap-icons",
@@ -6544,7 +6545,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "christianberkman/sortable-book": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
