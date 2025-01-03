@@ -88,3 +88,4 @@ app/Libraries/*
 
 build/*
 
+writable/shelf.db.org

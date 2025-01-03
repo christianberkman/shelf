@@ -18,6 +18,14 @@ $routes->group('books', static function ($routes) {
 });
 
 /**
+ * Authors
+ */
+$routes->group('authors', static function ($routes) {
+    $routes->get('find', 'Authors::find');
+    $routes->get('ajax', 'Authors::ajax');
+});
+
+/**
  * Sections
  */
 $routes->group('sections', static function ($routes) {
