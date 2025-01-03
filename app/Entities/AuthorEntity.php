@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Exception;
 
 class AuthorEntity extends Entity
 {
@@ -17,7 +16,7 @@ class AuthorEntity extends Entity
      */
     public function getBookCount(): int
     {
-        try{
+        try {
             $books = (model('BooksAuthorsModel'))
                 ->select('COUNT(book_id) as `count`')
                 ->where('author_id', $this->attributes['author_id'])
@@ -25,7 +24,7 @@ class AuthorEntity extends Entity
                 ->first();
 
             return $books['count'];
-        } catch(Throwable $e){
+        } catch (Throwable $e) {
             return 0;
         }
     }

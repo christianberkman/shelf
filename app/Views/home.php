@@ -12,10 +12,10 @@ $this->section('body');
 
                 <p class="text-center"><?= bookCount(); ?> titles, <?= copyCount(); ?> copies</p>
 
-                <a href="/books/find" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('find/book'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a book
                 </a>
-                <a href="/books/new" class="btn btn-outline-success btn-lg w-100 mt-3">
+                <a href="<?= site_url('book/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a book
                 </a>
             </div>
@@ -31,10 +31,10 @@ $this->section('body');
 
                 <p class="text-center"><?= seriesCount(); ?> series</p>
 
-                <a href="/series/find" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('find/series'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a series
                 </a>
-                <a href="/series/new" class="btn btn-outline-success btn-lg w-100 mt-3">
+                <a href="<?= site_url('series/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a series
                 </a>
             </div>
@@ -50,10 +50,10 @@ $this->section('body');
 
                 <p class="text-center"><?= authorCount(); ?> authors</p>
 
-                <a href="/authors/find" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('find/author'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find an author
                 </a>
-                <a href="/authors/new" class="btn btn-outline-success btn-lg w-100 mt-3">
+                <a href="<?= site_url('author/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add an author
                 </a>
             </div>
@@ -69,7 +69,7 @@ $this->section('body');
 
                 <p class="text-center"><?= sectionCount(); ?> sections</p>
 
-                <a href="/sections/" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('sections'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('view'); ?> View sections
                 </a>
             </div>

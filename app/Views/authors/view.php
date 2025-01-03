@@ -48,7 +48,7 @@ $this->section('body');
                                 <?php foreach($books as $book): ?>
                                 <tr>
                                     <td>
-                                        <a href="/books/<?=$book->book_id; ?>"><?=$book->title; ?></a>
+                                        <a href="/book/<?=$book->book_id; ?>"><?=$book->title; ?></a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -64,7 +64,7 @@ $this->section('body');
         </form>
 
         <?php if($author->bookCount >= 0): ?>
-        <a href="<?=site_url("authors/{$author->author_id}/delete"); ?>" class="btn btn-danger w-100 mb-3" id="btnDelete">
+        <a href="<?=site_url("author/{$author->author_id}/delete"); ?>" class="btn btn-danger w-100 mb-3" id="btnDelete">
             <?=bi('delete'); ?> Delete author
         </a>
         <?php endif; ?>

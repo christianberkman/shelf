@@ -21,7 +21,7 @@ class Authors extends BaseController
     }
 
     /**
-     * GET /authors/$authorId
+     * GET /author/$authorId
      */
     public function view(int $authorId)
     {
@@ -43,7 +43,7 @@ class Authors extends BaseController
     }
 
     /**
-     * POST /authors/$authorId
+     * POST /author/$authorId
      */
     public function update(int $authorId)
     {
@@ -64,7 +64,7 @@ class Authors extends BaseController
     }
 
     /**
-     * GET /authors/$authorId/delete
+     * GET /author/$authorId/delete
      */
     public function delete(int $authorId)
     {
@@ -77,14 +77,14 @@ class Authors extends BaseController
         $delete = (model('AuthorModel'))->delete($authorId);
 
         if ($delete) {
-            return redirect()->to('/authors/find')->with('alert', 'delete-success');
+            return redirect()->to('find/author')->with('alert', 'delete-success');
         }
 
         return redirect()->back()->with('alert', 'delete-error');
     }
 
     /**
-     * GET /authors/find
+     * GET /find/author
      */
     public function find()
     {
@@ -92,11 +92,11 @@ class Authors extends BaseController
             'current' => 'Find an author',
         ];
 
-        return view('authors/find/form', $data);
+        return view('authors/find', $data);
     }
 
     /**
-     * GET /authors/ajax
+     * GET /find/author/ajax
      */
     public function ajax()
     {

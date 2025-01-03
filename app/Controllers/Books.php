@@ -18,7 +18,7 @@ class Books extends BaseController
     }
 
     /**
-     * GET /books/$bookId
+     * GET /book/$bookId
      */
     public function view(int $bookId)
     {
@@ -26,7 +26,7 @@ class Books extends BaseController
 
         $data = [
             'crumbs' => [
-                ['Find a book', '/books/find'],
+                ['Find a book', 'find/book'],
             ],
             'current' => $book->title,
             'book'    => $book,
@@ -36,7 +36,7 @@ class Books extends BaseController
     }
 
     /**
-     * GET /books/find
+     * GET /find/book
      */
     public function find()
     {
@@ -44,11 +44,11 @@ class Books extends BaseController
             'current' => 'Find a book',
         ];
 
-        return view('books/find/form', $data);
+        return view('books/find', $data);
     }
 
     /**
-     * GET /findAjax
+     * GET /find/book/ajax
      */
     public function findAjax()
     {

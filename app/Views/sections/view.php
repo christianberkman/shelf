@@ -16,7 +16,7 @@ $this->section('body');
     </div><!--/col-->
 </div><!--/row-->
 
-<form method="post" action="<?= site_url("/sections/{$section->section_id}"); ?>">
+<form method="post" action="<?= current_url(); ?>">
     <div class="row">
         <div class="col-lg-4 mb-3">
             <label for="section_id" class="form-label">

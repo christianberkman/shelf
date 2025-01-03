@@ -3,7 +3,7 @@
 if (! function_exists('bi')) {
     /**
      * Return bootstrap-icon HTML
-     * 
+     *
      * @string|null $alias bootstrap-icon alias
      */
     function bi(?string $alias = null): string

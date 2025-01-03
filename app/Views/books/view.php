@@ -1,16 +1,16 @@
 <?php
-    $this->extend('layout'); 
-    $this->section('body');
+$this->extend('layout');
+$this->section('body');
 ?>
 <div class="row">
     <div class="col">
         <h1>
-            <?=$book->title;?>
+            <?=$book->title; ?>
         </h1>
     </div>
 </div><!--/row-->
 
-<form method="post" action="<?=site_url("/books/{$book->book_id}"); ?>">
+<form method="post" action="<?=site_url("/book/{$book->book_id}"); ?>">
     <div class="row">
         <div class="col-lg-6 mb-3">
             <div class="mb-3">
@@ -39,7 +39,7 @@
 
             <div class="mb-3">
                 <label for="series" class="form-label">Authors</label>
-                
+
                 <?php foreach($book->authorEntities as $author): ?>
                 <div class="mb-3 author">
                     <div class="input-group">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <?php endforeach; ?>
-                
+
                 <button type="button" class="btn btn-success">
                     <?=bi('add'); ?> Add author
                 </button>
@@ -77,7 +77,7 @@
     <div class="row">
         <div class="col mb-3">
             <button type="submit" class="btn btn-success w-100">
-                <?=bi('check');?> Save changes
+                <?=bi('check'); ?> Save changes
             </button>
         </div>
     </div><!--/row-->

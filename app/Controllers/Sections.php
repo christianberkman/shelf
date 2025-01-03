@@ -34,7 +34,7 @@ class Sections extends BaseController
     }
 
     /**
-     * GET /sections/$sectionId
+     * GET /section/$sectionId
      */
     public function view(string $sectionId)
     {
