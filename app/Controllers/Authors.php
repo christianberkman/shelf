@@ -8,6 +8,55 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Authors extends BaseController
 {
     /**
+     * GET /authors/$authorId
+     */
+    public function view(int $authorId)
+    {
+        $authorModel = model('AuthorModel');
+        $author = $authorModel->find($authorId);
+        if($author ===null) throw new \Exception("Author with ID {$authorId} does not exist");
+
+        $bookIds = (model('BooksAuthorsModel'))->where('author_id', $authorId)->findColumn('book_id');
+        $books = (model('BookModel'))->whereIn('book_id', $bookIds)->findAll();
+
+        $data = [
+            'crumbs' => [
+                ['FInd an author', '/authors/find'],
+            ],
+            'current' => $author->name,
+            'author' => $author,
+            'books' => $books,
+        ];
+
+        return view('authors/view', $data);
+    }
+
+    /**
+     * POST /authors/$authorId
+     */
+    public function update(int $authorId)
+    {
+        $authorModel = model('AuthorModel');
+        $author = $authorModel->find($authorId);
+        if ($author === null) throw new \Exception("Author with ID {$authorId} does not exist");
+        
+        $author->name = $this->request->getPost('name');
+
+        if($author->hasChanged())
+        {
+            $update = $authorModel->update($authorId, $author);
+            if($update)
+            {
+                return redirect()->back()->with('alert', 'success');
+            }
+
+            return redirect()->back()->with('alert', 'error');
+        }
+
+        return redirect()->back();
+    }
+    
+    /**
      * GET /authors/find
      */
     public function find()

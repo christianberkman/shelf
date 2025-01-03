@@ -11,16 +11,20 @@ $routes->get('/', 'Home::index');
  * Books
  */
 $routes->group('books', static function ($routes) {
+    $routes->get('(:segment)', 'Books::view/$1');
+    
     $routes->get('find', 'Books::find');
     $routes->get('findAjax', 'Books::findAjax');
 
-    $routes->get('(:segment)', 'Books::view/$1');
 });
 
 /**
  * Authors
  */
 $routes->group('authors', static function ($routes) {
+    $routes->get('(:segment)', 'Authors::view/$1');
+    $routes->post('(:segment)', 'Authors::update/$1');
+    
     $routes->get('find', 'Authors::find');
     $routes->get('ajax', 'Authors::ajax');
 });
