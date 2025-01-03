@@ -41,6 +41,7 @@ $this->section('script');
                     case 'query-too-short':
                         bookResults.html('<p><strong>Query is too short</strong></p>')
                         return;
+                    break;
                     case 'no-results':
                         bookResults.html('<p><strong>No results</strong></p>');
                         return;

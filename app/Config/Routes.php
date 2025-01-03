@@ -14,6 +14,7 @@ $routes->get('find/book', 'Books::find');
 $routes->get('find/book/ajax', 'Books::findAjax');
 
 $routes->get('book/(:num)', 'Books::view/$1');
+$routes->post('book/(:num)', 'Books::update/$1');
 
 /**
  * Authors

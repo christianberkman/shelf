@@ -36,6 +36,14 @@ class Books extends BaseController
     }
 
     /**
+     * POST /book/$bookId
+     */
+    public function update(int $bookId)
+    {
+        dd($this->request->getPost());
+    }
+
+    /**
      * GET /find/book
      */
     public function find()

@@ -102,7 +102,7 @@ class Authors extends BaseController
     {
         // Query
         $minChars   = 3;
-        $maxResults = (int) $this->request->getGet('max');
+        $maxResults = (int) ($this->request->getGet('max') ?? 10);
         $query      = trim($this->request->getGet('q'));
 
         if (strlen($query) < $minChars) {
