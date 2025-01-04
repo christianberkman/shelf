@@ -2,6 +2,14 @@
 $this->extend('layout');
 $this->section('body');
 ?>
+<?= match(session('alert')) {
+    'success'       => alert('Success', 'Saved book information', 'success'),
+    'error'         => alert('Error', 'Could not save book information', 'danger'),
+    'no-authors'    => alert('Error', 'A book must have least one author', 'warning'),
+    'error-authors' => alert('Error', 'Error in author information, please check and try again', 'warning'),
+    default         => null,
+};
+?>
 <div class="row">
     <div class="col">
         <h1>
@@ -20,7 +28,7 @@ $this->section('body');
 
             <div class="mb-3">
                 <label for="subtitle" class="form-label">Subtitle</label>
-                <input type="text" name="title" id="subtitle" value="<?= old('subtitle') ?? $book->subtitle; ?>" class="form-control" />
+                <input type="text" name="subtitle" id="subtitle" value="<?= old('subtitle') ?? $book->subtitle; ?>" class="form-control" />
             </div>
 
             <div class="mb-3">
@@ -41,15 +49,15 @@ $this->section('body');
                 <label for="series" class="form-label">Authors</label>
 
                 <div id="authors">
-                <?php foreach ($book->authorEntities as $author): ?>
-                    <div class="mb-3 author">
-                        <div class="input-group">
-                            <input type="hidden" name="author_ids[]" value="<?= $author->author_id; ?>" />
-                            <input type="text" value="<?= $author->name; ?>" class="form-control" disabled />
-                            <button type="button" class="btn btn-danger deleteAuthorBtn"><?= bi('delete'); ?></button>
+                    <?php foreach ($book->authorEntities as $author): ?>
+                        <div class="mb-3 author">
+                            <div class="input-group">
+                                <input type="hidden" name="author_ids[]" value="<?= $author->author_id; ?>" />
+                                <input type="text" value="<?= $author->name; ?>" class="form-control" disabled />
+                                <button type="button" class="btn btn-danger deleteAuthorBtn"><?= bi('delete'); ?></button>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
 
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAuthorModal">
@@ -108,11 +116,11 @@ $this->section('body');
 </div><!--/modal-->
 
 <?php
-$this->endSection(); 
+$this->endSection();
 $this->section('script');
 ?>
 <script>
-    $(function(){
+    $(function() {
         /**
          * Author
          */
@@ -120,33 +128,35 @@ $this->section('script');
         let authorRequest = null;
         const findAuthorSource = $('#findAuthorTemplate').html()
         let findAuthorTemplate = Handlebars.compile(findAuthorSource)
-        let addAuthorTemplate = Handlebars.compile( $('#addAuthorTemplate').html() )
+        let createAuthorTemplate = Handlebars.compile($('#createAuthorTemplate').html())
+        let addAuthorTemplate = Handlebars.compile($('#addAuthorTemplate').html())
+        let addCreatedAuthorTemplate = Handlebars.compile($('#addCreatedAuthorTemplate').html())
         const authorsDiv = $('#authors')
-        
-        $('#addAuthorQuery').on('input', function(e){
+
+        $('#addAuthorQuery').on('input', function(e) {
             let query = $(this).val()
 
-            if(authorRequest) authorRequest.abort()
+            if (authorRequest) authorRequest.abort()
 
             findAuthorDiv.html('<p><em>Finding authors...</em></p>');
 
-            authorRequest = $.getJSON('<?=site_url('find/author/ajax'); ?>?q='+query, function(data){
-                switch(data.msg){
+            authorRequest = $.getJSON('<?= site_url('find/author/ajax'); ?>?q=' + query, function(data) {
+                switch (data.msg) {
                     case 'query-too-short':
                         findAuthorDiv.html('<p><strong>Query is too short</strong></p>')
                         return;
-                    break;
+                        break;
                     case 'no-results':
-                        findAuthorDiv.html('<p><strong>No results</strong></p>')
+                        findAuthorDiv.html(createAuthorTemplate(data))
                         return;
-                    break;
+                        break;
                 }
 
                 findAuthorDiv.html(findAuthorTemplate(data))
             })
         })
 
-        $('body').on('click', '.addAuthorBtn', function(e){
+        $('body').on('click', '.addAuthorBtn', function(e) {
             const data = {
                 author_id: $(this).attr('data-author-id'),
                 name: $(this).attr('data-author-name'),
@@ -155,20 +165,28 @@ $this->section('script');
             authorsDiv.append(addAuthorTemplate(data))
         })
 
-        $('body').on('click', '.deleteAuthorBtn', function(e){
+        $('body').on('click', '.deleteAuthorBtn', function(e) {
             const authorDiv = $(this).closest('.author')
             authorDiv.remove()
+        })
+
+        $('body').on('click', '#createAuthorButton', function(e) {
+            const authorName = $(this).attr('data-author-name')
+
+            data = { name: authorName }
+            authorsDiv.append(addCreatedAuthorTemplate(data))
+
         })
 
         /**
          * Submit
          */
-        $('#bookForm').submit(function(e){
+        $('#bookForm').submit(function(e) {
             // Must have at least one author
-            const authorCount = $("input[name='author_ids[]'").length
-            if(authorCount < 1){
+            const authorCount = $(".author").length
+            if (authorCount < 1) {
                 e.preventDefault()
-                alert('YOu must add at least one author')
+                alert('You must add at least one author')
                 return false
             }
         })
@@ -176,20 +194,37 @@ $this->section('script');
 </script>
 
 <script id="findAuthorTemplate" type="text/x-handlebars-template">
-<table class="table table-striped table-sm">
-    <tbody>
-    {{#each results}}
-        <tr>
-            <td>{{name}}</td>
-            <td>
-                <button type="button" class="addAuthorBtn btn btn-success btn-sm" data-author-id="{{author_id}}" data-author-name="{{name}}" data-bs-dismiss="modal">
-                    <?=bi('add'); ?> Add
-                </button>
-            </td>
-        </tr>
-    {{/each}}
-    </tbody>
-</table>
+    <table class="table table-striped table-sm">
+        <tbody>
+        {{#each results}}
+            <tr>
+                <td>{{name}}</td>
+                <td>
+                    <button type="button" class="addAuthorBtn btn btn-success btn-sm" data-author-id="{{author_id}}" data-author-name="{{name}}" data-bs-dismiss="modal">
+                        <?= bi('add'); ?> Add
+                    </button>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+
+    <p>
+        <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
+            <?= bi('add'); ?> Create new author "{{sortableQuery}}"
+        </button>
+    </p>
+</script>
+<script id="createAuthorTemplate" type="text/x-handlebars-template">
+    <p>
+        <em>No results</em>
+    </p>
+
+    <p>
+        <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
+            <?= bi('add'); ?> Create new author "{{sortableQuery}}"
+        </button>
+    </p>
 </script>
 <script id="addAuthorTemplate" type="text/x-handlebars-template">
     <div class="mb-3 author">
@@ -202,6 +237,17 @@ $this->section('script');
         </div>
     </div>
 </script>
+<script id="addCreatedAuthorTemplate" type="text/x-handlebars-template">
+    <div class="mb-3 author">
+        <div class="input-group">
+            <input type="hidden" name="create_authors[]" value="{{name}}" />
+            <input type="text" value="{{name}}" class="form-control" disabled />
+            <button type="button" class="btn btn-danger deleteAuthorBtn">
+                <?= bi('delete'); ?>
+            </button>
+        </div>
+    </div>
+</script>
 <?php
-$this->endSection(); 
+$this->endSection();
 ?>

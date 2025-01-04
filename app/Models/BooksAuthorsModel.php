@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Throwable;
 
 class BooksAuthorsModel extends Model
 {
@@ -40,4 +41,33 @@ class BooksAuthorsModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function syncBookAuthorIds(int $bookId, array $authorIds): bool
+    {
+        $this->db->transStart();
+
+        try {
+            $this
+                ->where('book_id', $bookId)
+                ->delete();
+
+            foreach ($authorIds as $authorId) {
+                $author = authorModel()->find($authorId);
+                if (! $author) {
+                    return false;
+                }
+
+                $this
+                    ->set('book_id', $bookId)
+                    ->set('author_id', $authorId)
+                    ->insert();
+            }
+        } catch (Throwable $e) {
+            return false;
+        }
+
+        $this->db->transComplete();
+
+        return true;
+    }
 }

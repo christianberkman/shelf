@@ -8,7 +8,7 @@ class Books extends BaseController
 {
     protected function getBook(int $bookId)
     {
-        $book = (model('BookModel'))->find($bookId);
+        $book = bookModel()->find($bookId);
 
         if ($book === null) {
             throw new Exception("Book with ID {$bookId} does not exist");
@@ -40,7 +40,69 @@ class Books extends BaseController
      */
     public function update(int $bookId)
     {
-        dd($this->request->getPost());
+        d($this->request->getPost());
+
+        $db = db_connect();
+        $db->transStart();
+
+        // Book information
+        $book = $this->getBook($bookId);
+
+        $book->title    = $this->request->getPost('title');
+        $book->subtitle = $this->request->getPost('subtitle');
+        $book->part     = $this->request->getPost('part');
+        $book->count    = $this->request->getPost('count');
+        $book->price    = $this->request->getPost('price');
+        $book->note     = $this->request->getPost('note');
+
+        if ($book->hasChanged()) {
+            $bookUpdate = bookModel()->update($book->book_id, $book);
+            if (! $bookUpdate) {
+                return redirect()->back()->withInput()->with('alert', 'error-book');
+            }
+        }
+
+        // Series
+        // ...todo...
+
+        // Existing Authors
+        $authorIds = $this->request->getPost('author_ids') ?? [];
+
+        if (count($authorIds) === 0) {
+            return redirect()->back()->withInput()->with('alert', 'no-authors');
+        }
+
+        $existingAuthors = booksAuthorsModel()->syncBookAuthorIds($book->book_id, $authorIds);
+        if (! $existingAuthors) {
+            return redirect()->back()->withInput()->with('alert', 'error-authors');
+        }
+
+        // Create new authors
+        $createAuthors = $this->request->getPost('create_authors');
+
+        if ($createAuthors !== null) {
+            foreach ($createAuthors as $createAuthor) {
+                $author       = new \App\Entities\AuthorEntity();
+                $author->name = $createAuthor;
+
+                $insertAuthor = authorModel()->insert($author);
+                if (! $insertAuthor) {
+                    return redirect()->back()->withInput()->with('alert', 'error-authors');
+                }
+
+                $addAuthor = booksAuthorsModel()
+                    ->set('book_id', $book->book_id)
+                    ->set('author_id', $insertAuthor)
+                    ->insert();
+                if (! $addAuthor) {
+                    return redirect()->back()->withInput()->with('alert', 'error-authors');
+                }
+            }
+        }
+
+        $db->transComplete();
+
+        return redirect()->back()->with('alert', 'success');
     }
 
     /**
