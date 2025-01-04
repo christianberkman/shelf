@@ -10,6 +10,38 @@ if (! function_exists('alert')) {
     }
 }
 
+if (! function_exists('hasValidationError')) {
+    /**
+     * Return true if the field is listed amount the errors
+     */
+    function hasValidationError(string $field, ?array $errors = null)
+    {
+        if ($errors === null) {
+            $errors = session('errors') ?? [];
+        }
+
+        return array_key_exists($field, $errors);
+    }
+}
+
+if (! function_exists('validationMessage')) {
+    /**
+     * Return the validation message for the field if set
+     */
+    function validationMessage(string $field, ?array $errors = null)
+    {
+        if ($errors === null) {
+            $errors = session('errors') ?? [];
+        }
+
+        if (! array_key_exists($field, $errors)) {
+            return null;
+        }
+
+        return $errors[$field];
+    }
+}
+
 if (! function_exists('bookModel')) {
     /**
      * Return shared instance of App\Models\BookModel
