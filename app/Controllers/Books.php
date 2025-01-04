@@ -79,15 +79,22 @@ class Books extends BaseController
 
         // Create new authors
         $createAuthors = $this->request->getPost('create_authors');
-
+        $createAuthors = ['Berkman'];
         if ($createAuthors !== null) {
             foreach ($createAuthors as $createAuthor) {
                 $author       = new \App\Entities\AuthorEntity();
                 $author->name = $createAuthor;
 
-                $insertAuthor = authorModel()->insert($author);
-                if (! $insertAuthor) {
-                    return redirect()->back()->withInput()->with('alert', 'error-authors');
+                // Find exact match or create new author
+                $match = authorModel()->where('name', $author->name)->first();
+
+                if ($match === null) {
+                    $insertAuthor = authorModel()->insert($author);
+                    if (! $insertAuthor) {
+                        return redirect()->back()->withInput()->with('alert', 'error-authors');
+                    }
+                } else {
+                    $insertAuthor = $match->author_id;
                 }
 
                 $addAuthor = booksAuthorsModel()
