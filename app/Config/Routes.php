@@ -25,6 +25,8 @@ $routes->get('find/author/ajax', 'Authors::ajax');
 $routes->get('author/(:num)', 'Authors::view/$1');
 $routes->post('author/(:num)', 'Authors::update/$1');
 $routes->get('author/(:num)/delete', 'Authors::delete/$1');
+$routes->get('author/new', 'Authors::new');
+$routes->post('author/new', 'Authors::insert');
 
 /**
  * Sections

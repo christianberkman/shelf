@@ -26,7 +26,11 @@ class AuthorModel extends Model
     protected $validationRules = [
         'name' => 'required|string|is_unique[authors.name]',
     ];
-    protected $validationMessages   = [];
+    protected $validationMessages = [
+        'name' => [
+            'is_unique' => 'Author\'s name must be unique',
+        ],
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

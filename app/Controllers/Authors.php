@@ -21,6 +21,46 @@ class Authors extends BaseController
     }
 
     /**
+     * GET /author/new
+     */
+    public function new()
+    {
+        $data = [
+            'current' => 'Add new author',
+        ];
+
+        return view('authors/new', $data);
+    }
+
+    /**
+     * POST /author/new
+     */
+    public function insert()
+    {
+        $name = $this->request->getPost('name');
+        if (empty($name)) {
+            return redirect()->to('author/new');
+        }
+
+        $author       = new \App\Entities\AuthorEntity();
+        $author->name = $name;
+
+        // Find exact match
+        $match = authorModel()->where('name', $author->name)->first();
+        if ($match) {
+            return redirect()->to("author/{$match->author_id}")->with('alert', 'duplicate');
+        }
+
+        // Insert
+        $insert = authorModel()->insert($author);
+        if (! $insert) {
+            return redirect()->back()->withInput()->with('alert', 'error')->with('errors', authorModel()->validation->getErrors());
+        }
+
+        return redirect()->to("author/{$insert}")->with('alert', 'added');
+    }
+
+    /**
      * GET /author/$authorId
      */
     public function view(int $authorId)
@@ -28,11 +68,11 @@ class Authors extends BaseController
         $author = $this->getAuthor($authorId);
 
         $bookIds = booksAuthorsModel()->where('author_id', $author->author_id)->findColumn('book_id');
-        $books   = bookModel()->whereIn('book_id', $bookIds)->findAll();
+        $books   = bookModel()->whereIn('book_id', $bookIds ?? [])->findAll();
 
         $data = [
             'crumbs' => [
-                ['FInd an author', '/authors/find'],
+                ['FInd an author', '/find/author'],
             ],
             'current' => $author->name,
             'author'  => $author,
@@ -54,10 +94,10 @@ class Authors extends BaseController
         if ($author->hasChanged()) {
             $update = authorModel()->update($authorId, $author);
             if ($update) {
-                return redirect()->back()->with('alert', 'success');
+                return redirect()->back()->with('alert', 'success')->withInput();
             }
 
-            return redirect()->back()->with('alert', 'error');
+            return redirect()->back()->withInput()->with('alert', 'error')->with('errors', authorModel()->validation->getErrors());
         }
 
         return redirect()->back();
