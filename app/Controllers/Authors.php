@@ -11,7 +11,7 @@ class Authors extends BaseController
 
     private function getAuthor(int $authorId)
     {
-        $author = (model('AuthorModel'))->find($authorId);
+        $author = authorModel()->find($authorId);
 
         if ($author === null) {
             throw new Exception("Author with ID {$authorId} does not exist");
@@ -27,8 +27,8 @@ class Authors extends BaseController
     {
         $author = $this->getAuthor($authorId);
 
-        $bookIds = (model('BooksAuthorsModel'))->where('author_id', $author->author_id)->findColumn('book_id');
-        $books   = (model('BookModel'))->whereIn('book_id', $bookIds)->findAll();
+        $bookIds = booksAuthorsModel()->where('author_id', $author->author_id)->findColumn('book_id');
+        $books   = bookModel()->whereIn('book_id', $bookIds)->findAll();
 
         $data = [
             'crumbs' => [
@@ -52,7 +52,7 @@ class Authors extends BaseController
         $author->name = $this->request->getPost('name');
 
         if ($author->hasChanged()) {
-            $update = (model('AuthorModel'))->update($authorId, $author);
+            $update = authorModel()->update($authorId, $author);
             if ($update) {
                 return redirect()->back()->with('alert', 'success');
             }
@@ -74,7 +74,7 @@ class Authors extends BaseController
             throw new Exception('Author is attached to one or more books');
         }
 
-        $delete = (model('AuthorModel'))->delete($authorId);
+        $delete = authorModel()->delete($authorId);
 
         if ($delete) {
             return redirect()->to('find/author')->with('alert', 'delete-success');
@@ -116,25 +116,27 @@ class Authors extends BaseController
         $words = explode(' ', $query);
 
         foreach ($words as $word) {
-            (model('AuthorModel'))->like('name', $word);
+            authorModel()->like('name', $word);
         }
-        (model('AuthorModel'))->orderBy('name');
-        $authors = (model('AuthorModel'))->findAll();
+        authorModel()->orderBy('name');
+        $authors = authorModel()->findAll();
 
         // No results
         if (count($authors) === 0) {
             return json_encode([
-                'msg'   => 'no-results',
-                'query' => $query,
+                'msg'           => 'no-results',
+                'query'         => $query,
+                'sortableQuery' => sortableAuthor($query),
             ]);
         }
 
         // Return
         $return = [
-            'message' => 'ok',
-            'count'   => count($authors),
-            'query'   => $query,
-            'more'    => (count($authors) > $maxResults),
+            'message'       => 'ok',
+            'count'         => count($authors),
+            'query'         => $query,
+            'more'          => (count($authors) > $maxResults),
+            'sortableQuery' => sortableAuthor($query),
         ];
 
         // Results

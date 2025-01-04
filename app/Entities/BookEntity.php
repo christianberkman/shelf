@@ -68,7 +68,7 @@ class BookEntity extends Entity
             return null;
         }
 
-        $this->series = (model('SeriesModel'))->find($this->attributes['series_id']);
+        $this->series = seriesModel()->find($this->attributes['series_id']);
 
         return $this->series;
     }
@@ -108,13 +108,13 @@ class BookEntity extends Entity
         }
 
         // Look up author ids
-        $authorIds = (model('BooksAuthorsModel'))->where('book_id', $this->attributes['book_id'])->findColumn('author_id');
+        $authorIds = booksAuthorsModel()->where('book_id', $this->attributes['book_id'])->findColumn('author_id');
         if (count($authorIds) === 0) {
             return [];
         }
 
         // Author entities
-        $this->authors = (model('AuthorModel'))->whereIn('author_Id', $authorIds)->findALl();
+        $this->authors = authorModel()->whereIn('author_Id', $authorIds)->findALl();
 
         return $this->authors;
     }

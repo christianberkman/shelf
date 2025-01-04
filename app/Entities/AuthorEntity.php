@@ -17,7 +17,7 @@ class AuthorEntity extends Entity
     public function getBookCount(): int
     {
         try {
-            $books = (model('BooksAuthorsModel'))
+            $books = booksAuthorsModel()
                 ->select('COUNT(book_id) as `count`')
                 ->where('author_id', $this->attributes['author_id'])
                 ->asArray()

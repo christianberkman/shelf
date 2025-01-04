@@ -8,7 +8,7 @@ class Sections extends BaseController
 {
     protected function getSection(string $sectionId)
     {
-        $section = (model('SectionModel'))->find($sectionId);
+        $section = sectionModel()->find($sectionId);
 
         if ($section === null) {
             throw new Exception("Section with ID {$sectionId} does not exist");
@@ -62,7 +62,7 @@ class Sections extends BaseController
         $section->note = $this->request->getPost('note');
 
         if ($section->hasChanged()) {
-            $update = (model('SectionModel'))->update($sectionId, $section);
+            $update = sectionModel()->update($sectionId, $section);
             if ($update) {
                 return redirect()->back()->with('alert', 'success');
             }

@@ -81,14 +81,14 @@ class BookModel extends Model
 
         // Pick a random section_id
         if (count($this->sectionIds) === 0) {
-            $this->sectionIds = (model('SectionModel'))->findColumn('section_id');
+            $this->sectionIds = sectionModel()->findColumn('section_id');
         }
         $sectionId = $this->sectionIds[array_rand($this->sectionIds)];
 
         // Pick a random series (25%)
         if (random_int(1, 100) <= 25) {
             if (count($this->seriesIds) === 0) {
-                $this->seriesIds = (model('SeriesModel'))->findCOlumn('series_id');
+                $this->seriesIds = seriesModel()->findCOlumn('series_id');
             }
 
             $seriesId = $this->seriesIds[array_rand($this->seriesIds)];
