@@ -21,6 +21,7 @@ class AddAuthors extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 128,
                 'null'       => false,
+                'unique'     => true,
             ],
         ]);
 
