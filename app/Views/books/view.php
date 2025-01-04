@@ -2,7 +2,7 @@
 $this->extend('layout');
 $this->section('body');
 ?>
-<?= match(session('alert')) {
+<?= match (session('alert')) {
     'success'       => alert('Success', 'Saved book information', 'success'),
     'error'         => alert('Error', 'Could not save book information', 'danger'),
     'no-authors'    => alert('Error', 'A book must have least one author', 'warning'),
@@ -173,7 +173,9 @@ $this->section('script');
         $('body').on('click', '#createAuthorButton', function(e) {
             const authorName = $(this).attr('data-author-name')
 
-            data = { name: authorName }
+            data = {
+                name: authorName
+            }
             authorsDiv.append(addCreatedAuthorTemplate(data))
 
         })
@@ -209,22 +211,26 @@ $this->section('script');
         </tbody>
     </table>
 
+    {{#unless exactMatch}}
     <p>
         <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
             <?= bi('add'); ?> Create new author "{{sortableQuery}}"
         </button>
     </p>
+    {{/unless}}
 </script>
 <script id="createAuthorTemplate" type="text/x-handlebars-template">
     <p>
         <em>No results</em>
     </p>
 
+    {{#unless exactMatch}}
     <p>
         <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
             <?= bi('add'); ?> Create new author "{{sortableQuery}}"
         </button>
     </p>
+    {{/unless}}
 </script>
 <script id="addAuthorTemplate" type="text/x-handlebars-template">
     <div class="mb-3 author">

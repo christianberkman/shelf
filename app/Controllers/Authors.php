@@ -137,6 +137,7 @@ class Authors extends BaseController
             'query'         => $query,
             'more'          => (count($authors) > $maxResults),
             'sortableQuery' => sortableAuthor($query),
+            'exactMatch'    => in_array(sortableAuthor($query), array_column($authors, 'name'), true),
         ];
 
         // Results
