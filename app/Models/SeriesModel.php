@@ -30,10 +30,14 @@ class SeriesModel extends Model
 
     // Validation
     protected $validationRules = [
-        'series_title' => 'required|string',
+        'series_title' => 'required|string|is_unique[series.series_title]',
         'note'         => 'permit_empty|string',
     ];
-    protected $validationMessages   = [];
+    protected $validationMessages = [
+        'series_title' => [
+            'is_unique' => 'The Series Title needs to be unique',
+        ],
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

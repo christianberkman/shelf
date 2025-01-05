@@ -42,7 +42,7 @@ $this->section('body');
 
             <div class="mb-3">
                 <label for="part" class="form-label">Part</label>
-                <input type="text" name="part" id="part" value="<?= old('subtitle') ?? $book->subtitle; ?>" class="form-control" />
+                <input type="text" name="part" id="part" value="<?= old('part') ?? $book->part; ?>" class="form-control" />
             </div>
 
             <div class="mb-3">

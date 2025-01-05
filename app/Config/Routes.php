@@ -34,3 +34,15 @@ $routes->post('author/new', 'Authors::insert');
 $routes->get('sections', 'Sections::index');
 $routes->get('section/(:segment)', 'Sections::view/$1');
 $routes->post('section/(:segment)', 'Sections::update/$1');
+
+/**
+ * Series
+ */
+$routes->get('find/series', 'Series::find');
+$routes->get('find/series/ajax', 'Series::ajax');
+
+$routes->get('series/(:num)', 'Series::view/$1');
+$routes->post('series/(:num)', 'Series::update/$1');
+$routes->get('series/(:num)/delete', 'Series::delete/$1');
+$routes->get('series/new', 'Series::new');
+$routes->post('series/new', 'Series::insert');
