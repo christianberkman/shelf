@@ -78,7 +78,7 @@ if (! function_exists('sectionModel')) {
      */
     function seriesModel()
     {
-        return model('SectionModel');
+        return model('SeriesModel');
     }
 }
 
