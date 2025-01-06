@@ -17,7 +17,11 @@ if (! function_exists('bi')) {
             'check'    => 'check-lg',
             'delete'   => 'trash',
             'find'     => 'search',
+            'first'    => 'chevron-double-left',
+            'last'     => 'chevron-double-right',
             'manage'   => 'gear',
+            'next'     => 'chevron-right',
+            'prev'     => 'chevron-left',
             'sections' => 'collection',
             'view'     => 'eye',
 
