@@ -46,6 +46,13 @@ $this->section('body');
             </div>
 
             <div class="mb-3">
+                <label for="sectionId" class="form-label">
+                    Section
+                </label>
+                <?=view('sections/dropdown', ['selected' => old('section_id') ?? $book->section_id]); ?>
+            </div>
+
+            <div class="mb-3">
                 <label for="series" class="form-label">Authors</label>
 
                 <div id="authors">

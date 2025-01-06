@@ -76,9 +76,9 @@ if (! function_exists('sectionModel')) {
     /**
      * Return shared instance of App\Models\SectionModel
      */
-    function seriesModel()
+    function sectionModel()
     {
-        return model('SeriesModel');
+        return model('SectionModel');
     }
 }
 
