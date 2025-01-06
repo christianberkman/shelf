@@ -45,11 +45,32 @@ $this->section('body');
                 <input type="text" name="part" id="part" value="<?= old('part') ?? $book->part; ?>" class="form-control" />
             </div>
 
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="count" class="form-label">Copies</label>
+                    <input type="number" name="count" id="count" min="0" max="1000" value="<?= old('count') ?? $book->count; ?>" class="form-control" />
+                </div>
+
+                <div class="col mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" name="price" id="count" min="0" value="<?= old('price') ?? $book->price; ?>" class="form-control" />
+                </div>
+            </div><!--/row--->
+
+            <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <input type="text" id="note" name="note" value="<?= old('note') ?? $book->note; ?>" class="form-control" />
+            </div>
+
+        </div><!--/col-->
+
+        <div class="col-lg-6 mb-3">
+
             <div class="mb-3">
                 <label for="sectionId" class="form-label">
                     Section
                 </label>
-                <?=view('sections/dropdown', ['selected' => old('section_id') ?? $book->section_id]); ?>
+                <?= view('sections/dropdown', ['selected' => old('section_id') ?? $book->section_id]); ?>
             </div>
 
             <div class="mb-3">
@@ -71,33 +92,15 @@ $this->section('body');
                     <?= bi('add'); ?> Add author
                 </button>
             </div>
+        </div><!--/row-->
 
-            <div class="row">
-                <div class="col mb-3">
-                    <label for="count" class="form-label">Copies</label>
-                    <input type="number" name="count" id="count" min="0" max="1000" value="<?= old('count') ?? $book->count; ?>" class="form-control" />
-                </div>
-
-                <div class="col mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" name="price" id="count" min="0" value="<?= old('price') ?? $book->price; ?>" class="form-control" />
-                </div>
-            </div><!--/row--->
-        </div><!--/col-->
-
-        <div class="col-lg-6 mb-3">
-            <label for="note" class="form-label">Note</label>
-            <textarea id="note" name="note" rows="5" class="form-control w-100"><?= $book->note; ?></textarea>
-        </div>
-    </div><!--/row-->
-
-    <div class="row">
-        <div class="col mb-3">
-            <button type="submit" class="btn btn-success w-100">
-                <?= bi('check'); ?> Save changes
-            </button>
-        </div>
-    </div><!--/row-->
+        <div class="row">
+            <div class="col mb-3">
+                <button type="submit" class="btn btn-success w-100">
+                    <?= bi('check'); ?> Save changes
+                </button>
+            </div>
+        </div><!--/row-->
 </form>
 </div>
 
@@ -170,6 +173,9 @@ $this->section('script');
             }
 
             authorsDiv.append(addAuthorTemplate(data))
+
+            findAuthorDiv.html('')
+            $('#addAuthorQuery').val('')
         })
 
         $('body').on('click', '.deleteAuthorBtn', function(e) {
@@ -184,6 +190,9 @@ $this->section('script');
                 name: authorName
             }
             authorsDiv.append(addCreatedAuthorTemplate(data))
+
+            findAuthorDiv.html('')
+            $('#addAuthorQuery').val('')
 
         })
 
