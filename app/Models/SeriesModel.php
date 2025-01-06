@@ -53,6 +53,32 @@ class SeriesModel extends Model
     protected $afterDelete    = [];
 
     /**
+     * Filter by title query
+     */
+    public function filterByTitle(string $query): self
+    {
+        $words = explode(' ', $query);
+
+        foreach ($words as $word) {
+            seriesModel()->like('series_title', $word);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Include book_count per series_id
+     */
+    public function withBookCount(): self
+    {
+        return $this
+            ->select('series.*')
+            ->select('count(book_id) as `book_count`')
+            ->join('books', 'books.series_id = series.series_id', 'left')
+            ->groupBy('series.series_id');
+    }
+
+    /**
      * Fabricator
      */
     public function fake(Generator &$faker): array

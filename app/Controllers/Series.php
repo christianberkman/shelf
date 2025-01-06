@@ -137,6 +137,48 @@ class Series extends BaseController
     }
 
     /**
+     * GET /find/series/all?q=$q
+     */
+    public function all()
+    {
+        // Sort
+        $sort = $this->request->getGet('sort');
+
+        switch ($sort) {
+            default:
+            case 'title':
+                seriesModel()->orderBy('series_title');
+                break;
+
+            case 'count_desc':
+                seriesModel()->withBookCount()->orderBy('book_count DESC');
+                break;
+
+            case 'count_asc':
+                seriesModel()->withBookCount()->orderBy('book_count ASC');
+                break;
+        }
+
+        // Query
+        $query = $this->request->getGet('q');
+        if ($query !== null) {
+            $series = seriesModel()->filterByTitle($query);
+        }
+
+        $series = seriesModel()->paginate(20);
+
+        $data = [
+            'query'   => $query,
+            'sort'    => $sort,
+            'current' => 'Browse Series',
+            'series'  => $series,
+            'pager'   => seriesModel()->pager,
+        ];
+
+        return view('series/all', $data);
+    }
+
+    /**
      * GET /find/serie/ajax
      */
     public function ajax()
@@ -153,14 +195,7 @@ class Series extends BaseController
             ]);
         }
 
-        // Find
-        $words = explode(' ', $query);
-
-        foreach ($words as $word) {
-            seriesModel()->like('series_title', $word);
-        }
-        // seriesModel()->orderBy('series_title');
-        $series = seriesModel()->findAll();
+        $series = seriesModel()->orderBy('series_title')->filterByTitle($query)->findAll();
 
         // No results
         if (count($series) === 0) {

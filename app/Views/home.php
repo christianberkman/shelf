@@ -34,6 +34,11 @@ $this->section('body');
                 <a href="<?= site_url('find/series'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a series
                 </a>
+
+                <a href="<?= site_url('find/series/all'); ?>" class="btn btn-outline-primary btn-lg w-100 mt-3">
+                    <?= bi('list'); ?> Browse series
+                </a>
+
                 <a href="<?= site_url('series/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a series
                 </a>
@@ -78,5 +83,5 @@ $this->section('body');
 
 </div><!--/row-->
 <?php
-    $this->endSection();
+$this->endSection();
 ?>

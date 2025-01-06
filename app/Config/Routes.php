@@ -39,6 +39,7 @@ $routes->post('section/(:segment)', 'Sections::update/$1');
  * Series
  */
 $routes->get('find/series', 'Series::find');
+$routes->get('find/series/all', 'Series::all');
 $routes->get('find/series/ajax', 'Series::ajax');
 
 $routes->get('series/(:num)', 'Series::view/$1');

@@ -10,8 +10,8 @@ $this->section('body');
 <div class="row">
     <div class="col-lg-10 m-auto">
         <form method="get" action="<?= site_url('find/series/all'); ?>">
-            <h1>Find an serie</h1>
-            <input type="text" class="form-control border-info border-4" name="query" id="findSerieInput" placeholder="Begin typing..." />
+            <h1>Find a series</h1>
+            <input type="text" class="form-control border-info border-4" name="q" id="findSerieInput" placeholder="Begin typing..." />
             <div class="row">
                 <div id="serieResults" class="col mt-3">
             </div>
