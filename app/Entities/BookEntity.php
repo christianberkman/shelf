@@ -107,6 +107,10 @@ class BookEntity extends Entity
             return $this->authors;
         }
 
+        if (! array_key_exists('book_id', $this->attributes)) {
+            return [];
+        }
+
         // Look up author ids
         $authorIds = booksAuthorsModel()->where('book_id', $this->attributes['book_id'])->findColumn('author_id');
         if (count($authorIds) === 0) {
