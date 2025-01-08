@@ -49,7 +49,7 @@ $this->section('body');
             <div class="row">
                 <div class="col mb-3">
                     <label for="count" class="form-label">Copies</label>
-                    <input type="number" name="count" id="count" min="0" max="1000" value="<?= old('count') ?? $book->count; ?>" class="form-control" />
+                    <input type="number" name="count" id="count" min="0" max="1000" value="<?= old('count') ?? $book->count ?? 0; ?>" class="form-control" />
                 </div>
 
                 <div class="col mb-3">

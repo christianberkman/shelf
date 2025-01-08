@@ -15,8 +15,13 @@ $this->section('body');
                 <a href="<?= site_url('find/book'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a book
                 </a>
+
                 <a href="<?= site_url('book/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a book
+                </a>
+
+                <a href="<?= site_url('find/book/all'); ?>" class="btn btn-outline-secondary btn-lg w-100 mt-3">
+                    <?= bi('list'); ?> Browse books
                 </a>
             </div>
         </div><!--/card-->

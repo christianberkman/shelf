@@ -112,7 +112,7 @@ class BookEntity extends Entity
         }
 
         // Look up author ids
-        $authorIds = booksAuthorsModel()->where('book_id', $this->attributes['book_id'])->findColumn('author_id');
+        $authorIds = booksAuthorsModel()->where('book_id', $this->attributes['book_id'])->findColumn('author_id') ?? [];
         if (count($authorIds) === 0) {
             return [];
         }

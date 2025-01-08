@@ -16,7 +16,7 @@
                 </h5>
                 <p class="text-center"><?=bookCount($section->section_id); ?> books, <?=copyCount($section->section_id); ?> copies</p>
 
-                <a href="<?=site_url("/section/{$section->section_id}/browse"); ?>" class="btn btn-outline-primary w-100 mb-3">
+                <a href="<?=site_url("/find/book/all/?section_id={$section->section_id}"); ?>" class="btn btn-outline-primary w-100 mb-3">
                     <?=bi('search'); ?> Browse
                 </a>
 

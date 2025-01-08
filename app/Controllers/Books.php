@@ -210,14 +210,71 @@ class Books extends BaseController
     }
 
     /**
+     * GET /find/books/all
+     */
+    public function all()
+    {
+        // Sort
+        $sort = $this->request->getGet('sort');
+
+        switch ($sort) {
+            case 'title':
+            default:
+                bookModel()->orderBy('title');
+                break;
+
+            case 'section':
+                bookModel()->orderBy('section_id');
+                break;
+
+            case 'count_asc':
+                bookModel()->orderBy('count ASC');
+                break;
+
+            case 'count_desc':
+                bookModel()->orderBy('count DESC');
+                break;
+        }
+
+        // Query
+        $query = $this->request->getGet('query');
+        if ($query !== null) {
+            bookModel()->filterBySearchString($query);
+        }
+
+        // Section
+        $sectionId = $this->request->getGet('section_id');
+        if ($sectionId !== null) {
+            $section = sectionModel()->find($sectionId);
+            if ($section !== null) {
+                bookModel()->where('section_id', $sectionId);
+            }
+        }
+
+        $books = bookModel()->paginate(20);
+
+        $data = [
+            'sort'      => $sort,
+            'sectionId' => $sectionId,
+            'query'     => $query,
+            'current'   => 'Browse Books',
+            'books'     => $books,
+            'pager'     => bookModel()->pager,
+        ];
+
+        return view('books/all', $data);
+    }
+
+    /**
      * GET /find/book/ajax
      */
     public function findAjax()
     {
         // Query
-        $minChars   = 3;
-        $maxResults = (int) $this->request->getGet('max');
-        $query      = trim($this->request->getGet('q'));
+        $minChars      = 3;
+        $maxResults    = (int) $this->request->getGet('max');
+        $query         = trim($this->request->getGet('q'));
+        $sortableQuery = sortableTitle($query);
 
         if (strlen($query) < $minChars) {
             return json_encode([
@@ -227,30 +284,26 @@ class Books extends BaseController
         }
 
         // Find
-        $bookModel = model('BookModel')->join('series', 'series.series_id = books.series_id', 'left');
-        $words     = explode(' ', $query);
-
-        foreach ($words as $word) {
-            $bookModel->like('search_string', $word);
-        }
-        $bookModel->orderBy('title');
-        $books = $bookModel->findAll();
+        $books = bookModel()
+            ->join('series', 'series.series_id = books.series_id', 'left')
+            ->filterBySearchString($query)
+            ->findAll();
 
         // No results
         if (count($books) === 0) {
             return json_encode([
-                'msg'   => 'no-results',
-                'query' => $query,
+                'msg' => 'no-results',
+                'q'   => $query,
             ]);
         }
 
-        $this->similarSort($books, $query);
+        $this->similarSort($books, $sortableQuery);
 
         // Return
         $return = [
             'message'       => 'ok',
             'count'         => count($books),
-            'query'         => $query,
+            'q'             => $query,
             'sortableQuery' => sortableTitle($query),
             'more'          => (count($books) > $maxResults),
         ];
@@ -285,8 +338,6 @@ class Books extends BaseController
      */
     protected function similarSort(array &$books, string $query): void
     {
-        $query = sortableTitle($query);
-
         usort($books, static function ($a, $b) use ($query) {
             $distanceA = levenshtein($query, $a->searchString);
             $distanceB = levenshtein($query, $b->searchString);

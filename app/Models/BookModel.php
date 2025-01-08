@@ -68,6 +68,24 @@ class BookModel extends Model
     }
 
     /**
+     * Filter books by search string
+     */
+    public function filterBySearchString(string $query): self
+    {
+        $words = explode(' ', $query);
+
+        // $this->groupStart();
+        foreach ($words as $word) {
+            $this->like('search_string', $word);
+        }
+        // $this->groupEnd();
+
+        $this->orderBy('title');
+
+        return $this;
+    }
+
+    /**
      * Fabricator
      *
      * @return array<string, mixed>

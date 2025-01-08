@@ -1,6 +1,6 @@
 <?php
 
-$pager->setSurroundCount(1);
+$pager->setSurroundCount(2);
 ?>
 
 <div class="row justify-content-center">
