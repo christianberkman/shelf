@@ -40,12 +40,12 @@ $this->section('body');
                     <?= bi('search'); ?> Find a series
                 </a>
 
-                <a href="<?= site_url('series/find/all'); ?>" class="btn btn-outline-primary btn-lg w-100 mt-3">
-                    <?= bi('list'); ?> Browse series
-                </a>
-
                 <a href="<?= site_url('series/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a series
+                </a>
+
+                <a href="<?= site_url('series/find/all'); ?>" class="btn btn-outline-secondary btn-lg w-100 mt-3">
+                    <?= bi('list'); ?> Browse series
                 </a>
             </div>
         </div><!--/card-->
@@ -63,8 +63,13 @@ $this->section('body');
                 <a href="<?= site_url('authors/find'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find an author
                 </a>
+
                 <a href="<?= site_url('authors/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add an author
+                </a>
+
+                <a href="<?= site_url('/authors/browse'); ?>" class="btn btn-outline-secondary btn-lg w-100 mt-3">
+                    <?= bi('list'); ?> Browse authors
                 </a>
             </div>
         </div><!--/card-->

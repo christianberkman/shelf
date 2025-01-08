@@ -23,7 +23,7 @@ $routes->post('books/new', 'Books::insert');
  * Authors
  */
 $routes->get('authors/find', 'Authors::find');
-$routes->get('authors/find/json', 'Authors::ajax');
+$routes->get('authors/find/json', 'Authors::json');
 $routes->get('authors/browse', 'Authors::browse');
 
 $routes->get('authors/(:num)', 'Authors::view/$1');

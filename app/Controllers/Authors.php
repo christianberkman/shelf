@@ -136,9 +136,52 @@ class Authors extends BaseController
     }
 
     /**
+     * GET /books/browse
+     */
+    public function browse()
+    {
+        // Sort
+        $sort = $this->request->getGet('sort');
+
+        switch ($sort) {
+            case 'name':
+            default:
+                authorModel()->orderBy('name');
+                break;
+
+            case 'count_asc':
+                authorModel()->orderBy('book_count ASC');
+                break;
+
+            case 'count_desc':
+                authorModel()->orderBy('book_count DESC');
+                break;
+        }
+
+        // Query
+        $query = $this->request->getGet('query');
+        if ($query !== null) {
+            authorModel()->filterByName($query);
+        }
+
+        // Find
+        $authors = authorModel()->withBookCount()->paginate(20);
+
+        $data = [
+            'current' => 'Browse authors',
+            'sort'    => $sort,
+            'query'   => $query,
+            'authors' => $authors,
+            'pager'   => authorModel()->pager,
+        ];
+
+        return view('authors/browse', $data);
+    }
+
+    /**
      * GET /authors/find/json
      */
-    public function ajax()
+    public function json()
     {
         // Query
         $minChars   = 3;
@@ -153,13 +196,7 @@ class Authors extends BaseController
         }
 
         // Find
-        $words = explode(' ', $query);
-
-        foreach ($words as $word) {
-            authorModel()->like('name', $word);
-        }
-        authorModel()->orderBy('name');
-        $authors = authorModel()->findAll();
+        $authors = authorModel()->filterByName($query)->orderBy('name')->findAll();
 
         // No results
         if (count($authors) === 0) {

@@ -46,6 +46,34 @@ class AuthorModel extends Model
     protected $afterDelete    = [];
 
     /**
+     * Add book count
+     */
+    public function withBookCount(): self
+    {
+        return $this
+            ->select('authors.*')
+            ->select('count(book_id) as `book_count`')
+            ->join('books_authors', 'authors.author_id = books_authors.author_id', 'left')
+            ->groupBy('authors.author_id');
+    }
+
+    /**
+     * Filter by name
+     */
+    public function filterByName(string $query): self
+    {
+        $words = explode(' ', $query);
+
+        foreach ($words as $word) {
+            $this->like('name', $word);
+        }
+
+        $this->orderBy('name');
+
+        return $this;
+    }
+
+    /**
      * Fabricator
      *
      * @return array<string, string>
