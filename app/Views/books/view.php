@@ -19,7 +19,7 @@ $this->section('body');
     </div>
 </div><!--/row-->
 
-<form method="post" action="<?= site_url("/book/{$book->book_id}"); ?>" id="bookForm">
+<form method="post" action="<?= site_url("/books/{$book->book_id}"); ?>" id="bookForm">
     <div class="row">
         <div class="col-lg-6 mb-3">
             <div class="mb-3">
@@ -151,7 +151,7 @@ $this->section('script');
 
             findAuthorDiv.html('<p><em>Finding authors...</em></p>');
 
-            authorRequest = $.getJSON('<?= site_url('find/author/ajax'); ?>?q=' + query, function(data) {
+            authorRequest = $.getJSON('<?= site_url('authors/find/json'); ?>?q=' + query, function(data) {
                 switch (data.msg) {
                     case 'query-too-short':
                         findAuthorDiv.html('<p><strong>Query is too short</strong></p>')

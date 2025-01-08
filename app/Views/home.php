@@ -12,15 +12,15 @@ $this->section('body');
 
                 <p class="text-center"><?= bookCount(); ?> titles, <?= copyCount(); ?> copies</p>
 
-                <a href="<?= site_url('find/book'); ?>" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('books/find'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a book
                 </a>
 
-                <a href="<?= site_url('book/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
+                <a href="<?= site_url('books/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add a book
                 </a>
 
-                <a href="<?= site_url('find/book/all'); ?>" class="btn btn-outline-secondary btn-lg w-100 mt-3">
+                <a href="<?= site_url('books/browse'); ?>" class="btn btn-outline-secondary btn-lg w-100 mt-3">
                     <?= bi('list'); ?> Browse books
                 </a>
             </div>
@@ -36,11 +36,11 @@ $this->section('body');
 
                 <p class="text-center"><?= seriesCount(); ?> series</p>
 
-                <a href="<?= site_url('find/series'); ?>" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('series/find'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find a series
                 </a>
 
-                <a href="<?= site_url('find/series/all'); ?>" class="btn btn-outline-primary btn-lg w-100 mt-3">
+                <a href="<?= site_url('series/find/all'); ?>" class="btn btn-outline-primary btn-lg w-100 mt-3">
                     <?= bi('list'); ?> Browse series
                 </a>
 
@@ -60,10 +60,10 @@ $this->section('body');
 
                 <p class="text-center"><?= authorCount(); ?> authors</p>
 
-                <a href="<?= site_url('find/author'); ?>" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('authors/find'); ?>" class="btn btn-outline-primary btn-lg w-100">
                     <?= bi('search'); ?> Find an author
                 </a>
-                <a href="<?= site_url('author/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
+                <a href="<?= site_url('authors/new'); ?>" class="btn btn-outline-success btn-lg w-100 mt-3">
                     <?= bi('add'); ?> Add an author
                 </a>
             </div>

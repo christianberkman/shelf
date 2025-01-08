@@ -73,7 +73,7 @@ class Series extends BaseController
 
         $data = [
             'crumbs' => [
-                ['Find a series', '/find/series'],
+                ['Find a series', '/series/find'],
             ],
             'current' => $series->series_title,
             'series'  => $series,
@@ -118,7 +118,7 @@ class Series extends BaseController
         $delete = seriesModel()->delete($seriesId);
 
         if ($delete) {
-            return redirect()->to('find/series')->with('alert', 'delete-success');
+            return redirect()->to('series/find')->with('alert', 'delete-success');
         }
 
         return redirect()->back()->with('alert', 'delete-error');
@@ -137,9 +137,9 @@ class Series extends BaseController
     }
 
     /**
-     * GET /find/series/all?q=$q
+     * GET /series/find/all?q=$q
      */
-    public function all()
+    public function browse()
     {
         // Sort
         $sort = $this->request->getGet('sort');

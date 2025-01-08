@@ -60,7 +60,7 @@ $this->section('body');
                     <tr class="position-relative">
                         <td><?=$book->section_id; ?></td>
                         <td>
-                            <a href="<?=site_url("/book/{$book->book_id}"); ?>" class="stretched-link">
+                            <a href="<?=site_url("/books/{$book->book_id}"); ?>" class="stretched-link">
                                 <?=$book->title; ?>
                                 <?=(! empty($book->subtitle) ? "&mdash; <em>{$book->subtitle}</em>" : ''); ?>
                             </a>

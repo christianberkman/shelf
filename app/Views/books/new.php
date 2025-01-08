@@ -151,7 +151,7 @@ $this->section('script');
 
             findAuthorDiv.html('<p><em>Finding authors...</em></p>');
 
-            authorRequest = $.getJSON('<?= site_url('find/author/ajax'); ?>?q=' + query, function(data) {
+            authorRequest = $.getJSON('<?= site_url('authors/find/json'); ?>?q=' + query, function(data) {
                 switch (data.msg) {
                     case 'query-too-short':
                         findAuthorDiv.html('<p><strong>Query is too short</strong></p>')

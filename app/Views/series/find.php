@@ -9,7 +9,7 @@ $this->section('body');
 ?>
 <div class="row">
     <div class="col-lg-10 m-auto">
-        <form method="get" action="<?= site_url('find/series/all'); ?>">
+        <form method="get" action="<?= site_url('series/find/all'); ?>">
             <h1>Find a series</h1>
             <input type="text" class="form-control border-info border-4" name="q" id="findSerieInput" placeholder="Begin typing..." />
             <div class="row">
@@ -40,7 +40,7 @@ $this->section('script');
             serieResults.html('<em>Finding series...</em>')
 
             let query = $(this).val()
-            currentRequest = $.getJSON('/find/series/ajax?max=10&q='+query, function(data){
+            currentRequest = $.getJSON('/series/find/json?max=10&q='+query, function(data){
                 // No results or query too short
                 switch(data.msg){
                     case 'query-too-short':

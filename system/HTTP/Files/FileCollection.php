@@ -42,7 +42,7 @@ class FileCollection
      *
      * @return array|null
      */
-    public function all()
+    public function browse()
     {
         $this->populateFiles();
 

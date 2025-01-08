@@ -5,7 +5,7 @@ $this->section('body');
 
 <div class="row">
     <div class="col-lg-10 m-auto">
-        <form method="get" action="<?= site_url('find/book/all'); ?>">
+        <form method="get" action="<?= site_url('books/browse'); ?>">
             <h1>Find a book</h1>
             <input type="text" class="form-control border-info border-4" name="query" id="findBookInput" placeholder="Begin typing..." />
             <div class="row">
@@ -35,7 +35,7 @@ $this->section('script');
             bookResults.html('<em>Finding books...</em>')
 
             let query = $(this).val()
-            currentRequest = $.getJSON('/find/book/ajax?max=10&q='+query, function(data){
+            currentRequest = $.getJSON('/books/find/json?max=10&q='+query, function(data){
                 // No results or query too short
                 switch(data.msg){
                     case 'query-too-short':
@@ -65,7 +65,7 @@ $this->section('script');
             <tr style="position: relative">
                 <td>{{section_id}}</td>
                 <td>
-                <strong><a href="/book/{{book_id}}" class="stretched-link link-underline link-underline-opacity-0">{{title}}</a></strong>{{#if subtitle}} <em>{{subtitle}}</em>{{/if}}
+                <strong><a href="/books/{{book_id}}" class="stretched-link link-underline link-underline-opacity-0">{{title}}</a></strong>{{#if subtitle}} <em>{{subtitle}}</em>{{/if}}
                 &mdash; {{authors}}<br />
                 {{series}} {{#if part}}Part {{part}}{{/if}}
                 </td>
@@ -76,7 +76,7 @@ $this->section('script');
 
     <div class="row">
         <div class="col-auto me-auto">
-            <a href="<?= site_url('/book/new/'); ?>?title={{sortableQuery}}" class="btn btn-success">
+            <a href="<?= site_url('/books/new/'); ?>?title={{sortableQuery}}" class="btn btn-success">
                 <?= bi('plus'); ?> Add book with title "{{sortableQuery}}"
             </a>
         </div>

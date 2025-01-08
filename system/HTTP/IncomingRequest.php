@@ -356,7 +356,7 @@ class IncomingRequest extends Request
     {
         $valueUpper = strtoupper($type);
 
-        $httpMethods = Method::all();
+        $httpMethods = Method::browse();
 
         if (in_array($valueUpper, $httpMethods, true)) {
             return $this->getMethod() === $valueUpper;

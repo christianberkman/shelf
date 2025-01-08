@@ -10,40 +10,41 @@ $routes->get('/', 'Home::index');
 /**
  * Books
  */
-$routes->get('find/book', 'Books::find');
-$routes->get('find/book/ajax', 'Books::findAjax');
-$routes->get('find/book/all', 'Books::all');
+$routes->get('books/find', 'Books::find');
+$routes->get('books/find/json', 'Books::json');
+$routes->get('books/browse', 'Books::browse');
 
-$routes->get('book/(:num)', 'Books::view/$1');
-$routes->post('book/(:num)', 'Books::update/$1');
-$routes->get('book/new', 'Books::new');
-$routes->post('book/new', 'Books::insert');
+$routes->get('books/(:num)', 'Books::view/$1');
+$routes->post('books/(:num)', 'Books::update/$1');
+$routes->get('books/new', 'Books::new');
+$routes->post('books/new', 'Books::insert');
 
 /**
  * Authors
  */
-$routes->get('find/author', 'Authors::find');
-$routes->get('find/author/ajax', 'Authors::ajax');
+$routes->get('authors/find', 'Authors::find');
+$routes->get('authors/find/json', 'Authors::ajax');
+$routes->get('authors/browse', 'Authors::browse');
 
-$routes->get('author/(:num)', 'Authors::view/$1');
-$routes->post('author/(:num)', 'Authors::update/$1');
-$routes->get('author/(:num)/delete', 'Authors::delete/$1');
-$routes->get('author/new', 'Authors::new');
-$routes->post('author/new', 'Authors::insert');
+$routes->get('authors/(:num)', 'Authors::view/$1');
+$routes->post('authors/(:num)', 'Authors::update/$1');
+$routes->get('authors/(:num)/delete', 'Authors::delete/$1');
+$routes->get('authors/new', 'Authors::new');
+$routes->post('authors/new', 'Authors::insert');
 
 /**
  * Sections
  */
 $routes->get('sections', 'Sections::index');
-$routes->get('section/(:segment)', 'Sections::view/$1');
-$routes->post('section/(:segment)', 'Sections::update/$1');
+$routes->get('sections/(:segment)', 'Sections::view/$1');
+$routes->post('sections/(:segment)', 'Sections::update/$1');
 
 /**
  * Series
  */
-$routes->get('find/series', 'Series::find');
-$routes->get('find/series/all', 'Series::all');
-$routes->get('find/series/ajax', 'Series::ajax');
+$routes->get('series/find', 'Series::find');
+$routes->get('series/find/all', 'Series::browse');
+$routes->get('series/find/json', 'Series::ajax');
 
 $routes->get('series/(:num)', 'Series::view/$1');
 $routes->post('series/(:num)', 'Series::update/$1');

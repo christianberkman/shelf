@@ -19,7 +19,7 @@ class Books extends BaseController
     }
 
     /**
-     * GET /book/$bookId
+     * GET /books/$bookId
      */
     public function view(int $bookId)
     {
@@ -27,7 +27,7 @@ class Books extends BaseController
 
         $data = [
             'crumbs' => [
-                ['Find a book', 'find/book'],
+                ['Find a book', 'books/find'],
             ],
             'current' => $book->title,
             'book'    => $book,
@@ -37,7 +37,7 @@ class Books extends BaseController
     }
 
     /**
-     * POST /book/$bookId
+     * POST /books/$bookId
      */
     public function update(int $bookId)
     {
@@ -86,7 +86,7 @@ class Books extends BaseController
     }
 
     /**
-     * POST /book/new
+     * POST /books/new
      */
     public function insert()
     {
@@ -111,7 +111,7 @@ class Books extends BaseController
 
         $db->transComplete();
 
-        return redirect()->to("book/{$book->book_id}")->with('alert', 'insert-success');
+        return redirect()->to("books/{$book->book_id}")->with('alert', 'insert-success');
     }
 
     /**
@@ -198,7 +198,7 @@ class Books extends BaseController
     }
 
     /**
-     * GET /find/book
+     * GET /books/find
      */
     public function find()
     {
@@ -210,9 +210,9 @@ class Books extends BaseController
     }
 
     /**
-     * GET /find/books/all
+     * GET /books/finds/all
      */
-    public function all()
+    public function browse()
     {
         // Sort
         $sort = $this->request->getGet('sort');
@@ -266,9 +266,9 @@ class Books extends BaseController
     }
 
     /**
-     * GET /find/book/ajax
+     * GET /books/find/json
      */
-    public function findAjax()
+    public function json()
     {
         // Query
         $minChars      = 3;

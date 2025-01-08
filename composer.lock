@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/christianberkman/sortable-book/zipball/c4fccec78d8e8ddc2a20e210e5334dd0ff153291",
+                "url": "https://api.github.com/repos/christianberkman/sortable-books/zipball/c4fccec78d8e8ddc2a20e210e5334dd0ff153291",
                 "reference": "c4fccec78d8e8ddc2a20e210e5334dd0ff153291",
                 "shasum": ""
             },
@@ -44,8 +44,8 @@
             ],
             "description": "Make the title and author sortable for use in a library inventory by moving the article and initials to the end of the string",
             "support": {
-                "issues": "https://github.com/christianberkman/sortable-book/issues",
-                "source": "https://github.com/christianberkman/sortable-book/tree/main"
+                "issues": "https://github.com/christianberkman/sortable-books/issues",
+                "source": "https://github.com/christianberkman/sortable-books/tree/main"
             },
             "time": "2025-01-03T19:40:47+00:00"
         },

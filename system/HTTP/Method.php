@@ -104,7 +104,7 @@ class Method
      *
      * @return list<string>
      */
-    public static function all(): array
+    public static function browse(): array
     {
         return [
             self::CONNECT,

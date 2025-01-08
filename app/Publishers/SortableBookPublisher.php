@@ -9,7 +9,7 @@ use CodeIgniter\Publisher\Publisher;
  */
 class SortableBookPublisher extends Publisher
 {
-    protected $source      = VENDORPATH . 'christianberkman/sortable-book/src/';
+    protected $source      = VENDORPATH . 'christianberkman/sortable-books/src/';
     protected $destination = APPPATH . 'Libraries/';
 
     public function publish(): bool

@@ -21,7 +21,7 @@ class Authors extends BaseController
     }
 
     /**
-     * GET /author/new
+     * GET /authors/new
      */
     public function new()
     {
@@ -33,13 +33,13 @@ class Authors extends BaseController
     }
 
     /**
-     * POST /author/new
+     * POST /authors/new
      */
     public function insert()
     {
         $name = $this->request->getPost('name');
         if (empty($name)) {
-            return redirect()->to('author/new');
+            return redirect()->to('authors/new');
         }
 
         $author       = new \App\Entities\AuthorEntity();
@@ -48,7 +48,7 @@ class Authors extends BaseController
         // Find exact match
         $match = authorModel()->where('name', $author->name)->first();
         if ($match) {
-            return redirect()->to("author/{$match->author_id}")->with('alert', 'duplicate');
+            return redirect()->to("authors/{$match->author_id}")->with('alert', 'duplicate');
         }
 
         // Insert
@@ -57,11 +57,11 @@ class Authors extends BaseController
             return redirect()->back()->withInput()->with('alert', 'error')->with('errors', authorModel()->validation->getErrors());
         }
 
-        return redirect()->to("author/{$insert}")->with('alert', 'added');
+        return redirect()->to("authors/{$insert}")->with('alert', 'added');
     }
 
     /**
-     * GET /author/$authorId
+     * GET /authors/$authorId
      */
     public function view(int $authorId)
     {
@@ -72,7 +72,7 @@ class Authors extends BaseController
 
         $data = [
             'crumbs' => [
-                ['FInd an author', '/find/author'],
+                ['FInd an author', '/authors/find'],
             ],
             'current' => $author->name,
             'author'  => $author,
@@ -83,7 +83,7 @@ class Authors extends BaseController
     }
 
     /**
-     * POST /author/$authorId
+     * POST /authors/$authorId
      */
     public function update(int $authorId)
     {
@@ -104,7 +104,7 @@ class Authors extends BaseController
     }
 
     /**
-     * GET /author/$authorId/delete
+     * GET /authors/$authorId/delete
      */
     public function delete(int $authorId)
     {
@@ -117,14 +117,14 @@ class Authors extends BaseController
         $delete = authorModel()->delete($authorId);
 
         if ($delete) {
-            return redirect()->to('find/author')->with('alert', 'delete-success');
+            return redirect()->to('authors/find')->with('alert', 'delete-success');
         }
 
         return redirect()->back()->with('alert', 'delete-error');
     }
 
     /**
-     * GET /find/author
+     * GET /authors/find
      */
     public function find()
     {
@@ -136,7 +136,7 @@ class Authors extends BaseController
     }
 
     /**
-     * GET /find/author/ajax
+     * GET /authors/find/json
      */
     public function ajax()
     {

@@ -63,7 +63,7 @@ if (! function_exists('timezone_select')) {
      *
      * @throws Exception
      */
-    function timezone_select(string $class = '', string $default = '', int $what = DateTimeZone::ALL, ?string $country = null): string
+    function timezone_select(string $class = '', string $default = '', int $what = DateTimeZone::browse, ?string $country = null): string
     {
         $timezones = DateTimeZone::listIdentifiers($what, $country);
 

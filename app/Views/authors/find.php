@@ -9,7 +9,7 @@ $this->section('body');
 ?>
 <div class="row">
     <div class="col-lg-10 m-auto">
-        <form method="get" action="<?= site_url('find/author/all'); ?>">
+        <form method="get" action="<?= site_url('authors/browse'); ?>">
             <h1>Find an author</h1>
             <input type="text" class="form-control border-info border-4" name="query" id="findAuthorInput" placeholder="Begin typing..." />
             <div class="row">
@@ -39,7 +39,7 @@ $this->section('script');
             authorResults.html('<em>Finding authors...</em>')
 
             let query = $(this).val()
-            currentRequest = $.getJSON('/find/author/ajax?max=10&q='+query, function(data){
+            currentRequest = $.getJSON('/authors/find/json?max=10&q='+query, function(data){
                 // No results or query too short
                 switch(data.msg){
                     case 'query-too-short':
@@ -67,7 +67,7 @@ $this->section('script');
     {{#each results}}
             <tr style="position: relative">
                 <td>
-                    <strong><a href="/author/{{author_id}}" class="stretched-link link-underline link-underline-opacity-0">{{name}}</a></strong> &mdash; {{count}} books
+                    <strong><a href="/authors/{{author_id}}" class="stretched-link link-underline link-underline-opacity-0">{{name}}</a></strong> &mdash; {{count}} books
                 </td>
             </tr>
     {{/each}}

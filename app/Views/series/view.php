@@ -53,7 +53,7 @@ $this->section('body');
                                 <?php foreach ($books as $book): ?>
                                     <tr>
                                         <td>
-                                            <a href="/book/<?= $book->book_id; ?>">
+                                            <a href="/books/<?= $book->book_id; ?>">
                                                 <?= $book->title; ?>
                                                 <?=(! empty($book->part) ? "Part {$book->part}" : ''); ?>
                                             </a>
