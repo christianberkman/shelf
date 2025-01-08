@@ -33,7 +33,7 @@ class BookModel extends Model
         'title'         => 'required|string',
         'subtitle'      => 'permit_empty',
         'part'          => 'permit_empty',
-        'count'         => 'required|integer',
+        'count'         => 'permit_empty|integer',
         'price'         => 'permit_empty|decimal',
         'note'          => 'permit_empty|string',
         'section_id'    => 'required|string',

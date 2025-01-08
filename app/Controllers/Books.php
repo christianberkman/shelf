@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Entities\BookEntity;
 use Exception;
 
 class Books extends BaseController
@@ -40,21 +41,15 @@ class Books extends BaseController
      */
     public function update(int $bookId)
     {
-        d($this->request->getPost());
+        $book = bookModel()->find($bookId);
+        if (! $book) {
+            throw new Exception("Book with book_id {$bookId} does not exist");
+        }
 
         $db = db_connect();
         $db->transStart();
 
-        // Book information
-        $book = $this->getBook($bookId);
-
-        $book->title    = $this->request->getPost('title');
-        $book->subtitle = $this->request->getPost('subtitle');
-        $book->part     = $this->request->getPost('part');
-        $book->count    = $this->request->getPost('count');
-        $book->price    = $this->request->getPost('price');
-        $book->note     = $this->request->getPost('note');
-
+        $this->updateBookEntity($book);
         if ($book->hasChanged()) {
             $bookUpdate = bookModel()->update($book->book_id, $book);
             if (! $bookUpdate) {
@@ -62,24 +57,112 @@ class Books extends BaseController
             }
         }
 
-        // Series
-        // ...todo...
+        $this->syncBookSeries($book);
 
+        $syncAuthors = $this->syncBookAuthors($book, $alert);
+        if (! $syncAuthors) {
+            redirect()->back()->withInput()->with('alert', $alert);
+        }
+
+        $db->transComplete();
+
+        return redirect()->back()->with('alert', 'success');
+    }
+
+    /**
+     * GET /books/new
+     */
+    public function new()
+    {
+        $book        = new BookEntity();
+        $book->title = trim(htmlspecialchars($this->request->getGet('title')));
+
+        $data = [
+            'current' => 'Add a new book',
+            'book'    => $book,
+        ];
+
+        return view('books/new', $data);
+    }
+
+    /**
+     * POST /book/new
+     */
+    public function insert()
+    {
+        $book = new BookEntity();
+
+        $db = db_connect();
+        $db->transStart();
+
+        $this->updateBookEntity($book);
+        $insert = bookModel()->insert($book);
+        if (! $insert) {
+            return redirect()->back()->withInput()->with('alert', 'error')->with('errors', bookModel()->validation->getErrors());
+        }
+        $book->book_id = $insert;
+
+        $this->syncBookSeries($book);
+
+        $syncAuthors = $this->syncBookAuthors($book, $alert);
+        if (! $syncAuthors) {
+            redirect()->back()->withInput()->with('alert', $alert);
+        }
+
+        $db->transComplete();
+
+        return redirect()->to("book/{$book->book_id}")->with('alert', 'insert-success');
+    }
+
+    /**
+     * Update book entity with POST fields
+     */
+    private function updateBookEntity(BookEntity &$book): BookEntity
+    {
+        $book->title      = $this->request->getPost('title');
+        $book->subtitle   = $this->request->getPost('subtitle');
+        $book->part       = $this->request->getPost('part');
+        $book->section_id = $this->request->getPost('section_id');
+        $book->count      = $this->request->getPost('count');
+        $book->price      = $this->request->getPost('price');
+        $book->note       = $this->request->getPost('note');
+
+        return $book;
+    }
+
+    private function syncBookSeries($book): bool
+    {
+        // todo
+
+        return true;
+    }
+
+    /**
+     * Sync book authors from POST request, create new authors if needed
+     *
+     * @param mixed $book
+     * @param mixed $alert
+     */
+    private function syncBookAuthors($book, &$alert): bool
+    {
         // Existing Authors
         $authorIds = $this->request->getPost('author_ids') ?? [];
 
         if (count($authorIds) === 0) {
-            return redirect()->back()->withInput()->with('alert', 'no-authors');
+            $alert = 'no-authors';
+
+            return false;
         }
 
         $existingAuthors = booksAuthorsModel()->syncBookAuthorIds($book->book_id, $authorIds);
         if (! $existingAuthors) {
-            return redirect()->back()->withInput()->with('alert', 'error-authors');
+            $alert = 'error-authors';
+
+            return false;
         }
 
         // Create new authors
         $createAuthors = $this->request->getPost('create_authors');
-        $createAuthors = ['Berkman'];
         if ($createAuthors !== null) {
             foreach ($createAuthors as $createAuthor) {
                 $author       = new \App\Entities\AuthorEntity();
@@ -91,7 +174,9 @@ class Books extends BaseController
                 if ($match === null) {
                     $insertAuthor = authorModel()->insert($author);
                     if (! $insertAuthor) {
-                        return redirect()->back()->withInput()->with('alert', 'error-authors');
+                        $alert = 'error-authors';
+
+                        return false;
                     }
                 } else {
                     $insertAuthor = $match->author_id;
@@ -102,14 +187,14 @@ class Books extends BaseController
                     ->set('author_id', $insertAuthor)
                     ->insert();
                 if (! $addAuthor) {
-                    return redirect()->back()->withInput()->with('alert', 'error-authors');
+                    $alert = 'error-authors';
+
+                    return false;
                 }
             }
         }
 
-        $db->transComplete();
-
-        return redirect()->back()->with('alert', 'success');
+        return true;
     }
 
     /**
@@ -142,7 +227,7 @@ class Books extends BaseController
         }
 
         // Find
-        $bookModel = model('BookModel')->join('series', 'series.series_id = books.series_id');
+        $bookModel = model('BookModel')->join('series', 'series.series_id = books.series_id', 'left');
         $words     = explode(' ', $query);
 
         foreach ($words as $word) {
@@ -159,12 +244,15 @@ class Books extends BaseController
             ]);
         }
 
+        $this->similarSort($books, $query);
+
         // Return
         $return = [
-            'message' => 'ok',
-            'count'   => count($books),
-            'query'   => $query,
-            'more'    => (count($books) > $maxResults),
+            'message'       => 'ok',
+            'count'         => count($books),
+            'query'         => $query,
+            'sortableQuery' => sortableTitle($query),
+            'more'          => (count($books) > $maxResults),
         ];
 
         // Results
@@ -190,5 +278,27 @@ class Books extends BaseController
 
         // Return
         return json_encode($return, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * Sort books by similarity to the search string
+     */
+    protected function similarSort(array &$books, string $query): void
+    {
+        $query = sortableTitle($query);
+
+        usort($books, static function ($a, $b) use ($query) {
+            $distanceA = levenshtein($query, $a->searchString);
+            $distanceB = levenshtein($query, $b->searchString);
+
+            if ($distanceA === $distanceB) {
+                return 0;
+            }
+            if ($distanceA < $distanceB) {
+                return -1;
+            }
+
+            return 1;
+        });
     }
 }

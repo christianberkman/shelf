@@ -74,9 +74,20 @@ $this->section('script');
         </tbody>
     </table>
 
-    {{#if more}}
-        <button type="submit" class="btn btn-primary">Show all {{count}} results for "{{query}}"</button>
-    {{/if}}
+    <div class="row">
+        <div class="col-auto me-auto">
+            <a href="<?= site_url('/book/new/'); ?>?title={{sortableQuery}}" class="btn btn-success">
+                <?= bi('plus'); ?> Add book with title "{{sortableQuery}}"
+            </a>
+        </div>
+
+        <div class="col-auto ms-auto">
+            {{#if more}}
+                <button type="submit" class="btn btn-primary">Show all {{count}} results for "{{query}}"</button>
+            {{/if}}
+        </div>
+    </div><!--/row-->
+
 </script>
 
 <?php $this->endSection(); ?>

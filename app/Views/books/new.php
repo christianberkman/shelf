@@ -3,28 +3,28 @@ $this->extend('layout');
 $this->section('body');
 ?>
 <?= match (session('alert')) {
-    'success'        => alert('Success', 'Saved book information', 'success'),
-    'insert-success' => alert('Success', 'Added new book', 'success'),
-    'error'          => alert('Error', 'Could not save book information', 'danger'),
-    'no-authors'     => alert('Error', 'A book must have least one author', 'warning'),
-    'error-authors'  => alert('Error', 'Error in author information, please check and try again', 'warning'),
-    default          => null,
+    'success'       => alert('Success', 'Added new book', 'success'),
+    'error'         => alert('Error', 'Could not add new book', 'danger'),
+    'no-authors'    => alert('Error', 'A book must have least one author', 'warning'),
+    'error-authors' => alert('Error', 'Error in author information, please check and try again', 'warning'),
+    default         => null,
 };
 ?>
 <div class="row">
     <div class="col">
         <h1>
-            <?= $book->title; ?>
+            <?= bi('add'); ?> Add new book
         </h1>
     </div>
 </div><!--/row-->
 
-<form method="post" action="<?= site_url("/book/{$book->book_id}"); ?>" id="bookForm">
+<form method="post" action="<?= current_url(); ?>" id="bookForm">
     <div class="row">
         <div class="col-lg-6 mb-3">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" value="<?= old('title') ?? $book->title; ?>" class="form-control" required />
+                <input type="text" name="title" id="title" value="<?= old('title') ?? $book->title; ?>" class="form-control <?=hasValidationError('title') ? 'is-invalid' : ''; ?>" required />
+                <?= validationMessage('series_title'); ?>
             </div>
 
             <div class="mb-3">
