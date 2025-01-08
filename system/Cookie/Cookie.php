@@ -778,7 +778,7 @@ class Cookie implements ArrayAccess, CloneableCookieInterface
             $samesite = self::SAMESITE_LAX;
         }
 
-        if (! in_array(strtolower($samesite), self::browseOWED_SAMESITE_VALUES, true)) {
+        if (! in_array(strtolower($samesite), self::ALLOWED_SAMESITE_VALUES, true)) {
             throw CookieException::forInvalidSameSite($samesite);
         }
 
