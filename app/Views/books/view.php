@@ -8,6 +8,7 @@ $this->section('body');
     'error'          => alert('Error', 'Could not save book information', 'danger'),
     'no-authors'     => alert('Error', 'A book must have least one author', 'warning'),
     'error-authors'  => alert('Error', 'Error in author information, please check and try again', 'warning'),
+    'error-series'   => alert('Error', 'Could not save book series', 'danger'),
     default          => null,
 };
 ?>
@@ -36,8 +37,10 @@ $this->section('body');
                 <label for="series" class="form-label">Series</label>
                 <div class="input-group">
                     <input type="hidden" id="series_id" name="series_id" value="<?= old('series_id') ?? $book->series_id; ?>" />
+                    <input type="hidden" id="series_add" name="series_add" value="<?= old('series_add'); ?>" />
                     <input type="text" id="series" value="<?= $book->seriesTitle; ?>" class="form-control" disabled />
-                    <button type="button" class="btn btn-primary"><?= bi('find'); ?></button>
+                    <button type="button" id="removeSeriesButton" class="btn btn-danger"><?= bi('delete'); ?></button>
+                    <button type="button" id="findSeriesButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSeriesModal"><?= bi('find'); ?></button>
                 </div>
             </div>
 
@@ -104,173 +107,10 @@ $this->section('body');
         </div><!--/row-->
 </form>
 </div>
-
-<!-- Add author modal -->
-<div class="modal fade" id="addAuthorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5"><?= bi('add'); ?> Add author to book</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="addAuthorQuery" class="form-control" placeholder="Find author" class="form-control mb-3" />
-
-                <div id="addAuthorResults" class="mt-3 mb-3">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div><!--/modal-content-->
-    </div><!--/modal-dialog-->
-</div><!--/modal-->
-
 <?php
 $this->endSection();
+
 $this->section('script');
-?>
-<script>
-    $(function() {
-        /**
-         * Author
-         */
-        const findAuthorDiv = $('#addAuthorResults');
-        let authorRequest = null;
-        const findAuthorSource = $('#findAuthorTemplate').html()
-        let findAuthorTemplate = Handlebars.compile(findAuthorSource)
-        let createAuthorTemplate = Handlebars.compile($('#createAuthorTemplate').html())
-        let addAuthorTemplate = Handlebars.compile($('#addAuthorTemplate').html())
-        let addCreatedAuthorTemplate = Handlebars.compile($('#addCreatedAuthorTemplate').html())
-        const authorsDiv = $('#authors')
-
-        $('#addAuthorQuery').on('input', function(e) {
-            let query = $(this).val()
-
-            if (authorRequest) authorRequest.abort()
-
-            findAuthorDiv.html('<p><em>Finding authors...</em></p>');
-
-            authorRequest = $.getJSON('<?= site_url('authors/find/json'); ?>?q=' + query, function(data) {
-                switch (data.msg) {
-                    case 'query-too-short':
-                        findAuthorDiv.html('<p><strong>Query is too short</strong></p>')
-                        return;
-                        break;
-                    case 'no-results':
-                        findAuthorDiv.html(createAuthorTemplate(data))
-                        return;
-                        break;
-                }
-
-                findAuthorDiv.html(findAuthorTemplate(data))
-            })
-        })
-
-        $('body').on('click', '.addAuthorBtn', function(e) {
-            const data = {
-                author_id: $(this).attr('data-author-id'),
-                name: $(this).attr('data-author-name'),
-            }
-
-            authorsDiv.append(addAuthorTemplate(data))
-
-            findAuthorDiv.html('')
-            $('#addAuthorQuery').val('')
-        })
-
-        $('body').on('click', '.deleteAuthorBtn', function(e) {
-            const authorDiv = $(this).closest('.author')
-            authorDiv.remove()
-        })
-
-        $('body').on('click', '#createAuthorButton', function(e) {
-            const authorName = $(this).attr('data-author-name')
-
-            data = {
-                name: authorName
-            }
-            authorsDiv.append(addCreatedAuthorTemplate(data))
-
-            findAuthorDiv.html('')
-            $('#addAuthorQuery').val('')
-
-        })
-
-        /**
-         * Submit
-         */
-        $('#bookForm').submit(function(e) {
-            // Must have at least one author
-            const authorCount = $(".author").length
-            if (authorCount < 1) {
-                e.preventDefault()
-                alert('You must add at least one author')
-                return false
-            }
-        })
-    })
-</script>
-
-<script id="findAuthorTemplate" type="text/x-handlebars-template">
-    <table class="table table-striped table-sm">
-        <tbody>
-        {{#each results}}
-            <tr>
-                <td>{{name}}</td>
-                <td>
-                    <button type="button" class="addAuthorBtn btn btn-success btn-sm" data-author-id="{{author_id}}" data-author-name="{{name}}" data-bs-dismiss="modal">
-                        <?= bi('add'); ?> Add
-                    </button>
-                </td>
-            </tr>
-        {{/each}}
-        </tbody>
-    </table>
-
-    {{#unless exactMatch}}
-    <p>
-        <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
-            <?= bi('add'); ?> Create new author "{{sortableQuery}}"
-        </button>
-    </p>
-    {{/unless}}
-</script>
-<script id="createAuthorTemplate" type="text/x-handlebars-template">
-    <p>
-        <em>No results</em>
-    </p>
-
-    {{#unless exactMatch}}
-    <p>
-        <button type="button" id="createAuthorButton" data-author-name="{{sortableQuery}}" class="btn btn-sm btn-success" data-bs-dismiss="modal">
-            <?= bi('add'); ?> Create new author "{{sortableQuery}}"
-        </button>
-    </p>
-    {{/unless}}
-</script>
-<script id="addAuthorTemplate" type="text/x-handlebars-template">
-    <div class="mb-3 author">
-        <div class="input-group">
-            <input type="hidden" name="author_ids[]" value="{{author_id}}" />
-            <input type="text" value="{{name}}" class="form-control" disabled />
-            <button type="button" class="btn btn-danger deleteAuthorBtn">
-                <?= bi('delete'); ?>
-            </button>
-        </div>
-    </div>
-</script>
-<script id="addCreatedAuthorTemplate" type="text/x-handlebars-template">
-    <div class="mb-3 author">
-        <div class="input-group">
-            <input type="hidden" name="create_authors[]" value="{{name}}" />
-            <input type="text" value="{{name}}" class="form-control" disabled />
-            <button type="button" class="btn btn-danger deleteAuthorBtn">
-                <?= bi('delete'); ?>
-            </button>
-        </div>
-    </div>
-</script>
-<?php
+echo view('books/view_scripts');
 $this->endSection();
 ?>

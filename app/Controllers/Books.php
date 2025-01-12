@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Entities\AuthorEntity;
 use App\Entities\BookEntity;
+use App\Entities\SeriesEntity;
 use Exception;
 
 class Books extends BaseController
@@ -50,6 +52,12 @@ class Books extends BaseController
         $db->transStart();
 
         $this->updateBookEntity($book);
+
+        $updateSeries = $this->updateBookSeries($book);
+        if (! $updateSeries) {
+            redirect()->back()->withInput()->with('alert', 'error-series');
+        }
+
         if ($book->hasChanged()) {
             $bookUpdate = bookModel()->update($book->book_id, $book);
             if (! $bookUpdate) {
@@ -57,11 +65,11 @@ class Books extends BaseController
             }
         }
 
-        $this->syncBookSeries($book);
+        $this->updateBookSeries($book);
 
         $syncAuthors = $this->syncBookAuthors($book, $alert);
         if (! $syncAuthors) {
-            redirect()->back()->withInput()->with('alert', $alert);
+            return redirect()->back()->withInput()->with('alert', $alert);
         }
 
         $db->transComplete();
@@ -96,17 +104,21 @@ class Books extends BaseController
         $db->transStart();
 
         $this->updateBookEntity($book);
+
+        $updateSeries = $this->updateBookSeries($book);
+        if (! $updateSeries) {
+            redirect()->back()->withInput()->with('alert', 'error-series');
+        }
+
         $insert = bookModel()->insert($book);
         if (! $insert) {
             return redirect()->back()->withInput()->with('alert', 'error')->with('errors', bookModel()->validation->getErrors());
         }
         $book->book_id = $insert;
 
-        $this->syncBookSeries($book);
-
         $syncAuthors = $this->syncBookAuthors($book, $alert);
         if (! $syncAuthors) {
-            redirect()->back()->withInput()->with('alert', $alert);
+            return redirect()->back()->withInput()->with('alert', $alert);
         }
 
         $db->transComplete();
@@ -130,9 +142,35 @@ class Books extends BaseController
         return $book;
     }
 
-    private function syncBookSeries($book): bool
+    /**
+     * Update [books.series_id] or create a new series if needed
+     *
+     * @param [type] $book
+     */
+    private function updateBookSeries(&$book): bool
     {
-        // todo
+        $seriesId = $this->request->getPost('series_id');
+
+        // Create new series
+        $addSeries = $this->request->getPost('series_add');
+        if (! empty($addSeries)) {
+            $series               = new SeriesEntity();
+            $series->series_title = $addSeries;
+
+            $match = seriesModel()->where('series_title', $series->series_title)->first();
+
+            if ($match === null) {
+                $insert = seriesModel()->insert($series);
+                if (! $insert) {
+                    return false;
+                }
+                $seriesId = $insert;
+            } else {
+                $seriesId = $match->series_id;
+            }
+        }
+
+        $book->series_id = $seriesId;
 
         return true;
     }
@@ -145,15 +183,17 @@ class Books extends BaseController
      */
     private function syncBookAuthors($book, &$alert): bool
     {
-        // Existing Authors
-        $authorIds = $this->request->getPost('author_ids') ?? [];
+        $authorIds     = $this->request->getPost('author_ids') ?? [];
+        $createAuthors = $this->request->getPost('create_authors') ?? [];
 
-        if (count($authorIds) === 0) {
+        // At least one (existing or new) author
+        if (count($authorIds) + count($createAuthors) === 0) {
             $alert = 'no-authors';
 
             return false;
         }
 
+        // Existing authors
         $existingAuthors = booksAuthorsModel()->syncBookAuthorIds($book->book_id, $authorIds);
         if (! $existingAuthors) {
             $alert = 'error-authors';
@@ -162,10 +202,9 @@ class Books extends BaseController
         }
 
         // Create new authors
-        $createAuthors = $this->request->getPost('create_authors');
         if ($createAuthors !== null) {
             foreach ($createAuthors as $createAuthor) {
-                $author       = new \App\Entities\AuthorEntity();
+                $author       = new AuthorEntity();
                 $author->name = $createAuthor;
 
                 // Find exact match or create new author

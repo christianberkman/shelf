@@ -53,7 +53,7 @@ $this->section('body');
                                 <?php foreach ($books as $book): ?>
                                     <tr>
                                         <td>
-                                            <?=$book->section_id;?>
+                                            <?=$book->section_id; ?>
                                         </td>
                                         <td>
                                             <a href="/books/<?= $book->book_id; ?>"><?= $book->title; ?></a>
