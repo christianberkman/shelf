@@ -331,8 +331,9 @@ class Books extends BaseController
         // No results
         if (count($books) === 0) {
             return json_encode([
-                'msg' => 'no-results',
-                'q'   => $query,
+                'msg'           => 'no-results',
+                'query'         => $query,
+                'sortableQuery' => sortableTitle($query),
             ]);
         }
 

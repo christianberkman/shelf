@@ -10,7 +10,7 @@ $this->section('body');
             <input type="text" class="form-control border-info border-4" name="query" id="findBookInput" placeholder="Begin typing..." />
             <div class="row">
                 <div id="bookResults" class="col mt-3">
-            </div>
+                </div>
         </form>
     </div><!--/col-->
 </div><!--/row-->
@@ -19,45 +19,45 @@ $this->endSection();
 $this->section('script');
 ?>
 <script>
-    $(function(){
-        const bookResults = $('#bookResults');
-        let source = $('#bookTemplate').html()
-        let template = Handlebars.compile(source)
-        let currentRequest = null
+    $(function() {
+                const bookResults = $('#bookResults');
+                let source = $('#bookTemplate').html()
+                let template = Handlebars.compile(source)
+                let currentRequest = null
 
-        $('#findBookInput').on('input', function(){
-            // Cancel current request
-            if(currentRequest) {
-                currentRequest.abort();
-            }
+                $('#findBookInput').on('input', function() {
+                        // Cancel current request
+                        if (currentRequest) {
+                            currentRequest.abort();
+                        }
 
-            // Remove previous results
-            bookResults.html('<em>Finding books...</em>')
+                        // Remove previous results
+                        bookResults.html('<em>Finding books...</em>')
 
-            let query = $(this).val()
-            currentRequest = $.getJSON('/books/find/json?max=10&q='+query, function(data){
-                // No results or query too short
-                switch(data.msg){
-                    case 'query-too-short':
-                        bookResults.html('<p><strong>Query is too short</strong></p>')
-                        return;
-                    break;
-                    case 'no-results':
-                        bookResults.html('<p><strong>No results</strong></p>');
-                        return;
-                    break;
-                }
+                        let query = $(this).val()
+                        currentRequest = $.getJSON('/books/find/json?max=10&q=' + query, function(data) {
+                                // No results or query too short
+                                switch (data.msg) {
+                                    case 'query-too-short':
+                                        bookResults.html('<p><strong>Query is too short</strong></p>')
+                                        return;
+                                        break;
+                                    case 'no-results':
+                                        bookResults.html('<p><strong>No results</strong></p><p><a href="<?= site_url('/books/new/'); ?>?title='+data.sortableQuery+'" class="btn btn-success"><?= bi('plus'); ?> Add book with title "'+data.sortableQuery+'"</a>');
+                                            return;
+                                            break;
+                                        }
 
-                // Results!
-                bookResults.html(template(data));
-            });
-        })
-    })
+                                        // Results!
+                                        bookResults.html(template(data));
+                                });
+                        })
+                })
 </script>
 
 <script id="bookTemplate" type="text/x-handlebars-template">
     <p>
-        Showing <strong>{{shown}} results for "{{query}}"</strong>
+        Showing <strong>{{shown}} results for "{{q}}"</strong>
     </p>
     <table class="table table-striped table-hover w-100">
         <tbody>
@@ -83,7 +83,7 @@ $this->section('script');
 
         <div class="col-auto ms-auto">
             {{#if more}}
-                <button type="submit" class="btn btn-primary">Show all {{count}} results for "{{query}}"</button>
+                <button type="submit" class="btn btn-primary">Show all {{count}} results for "{{q}}"</button>
             {{/if}}
         </div>
     </div><!--/row-->
