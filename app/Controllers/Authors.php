@@ -72,7 +72,7 @@ class Authors extends BaseController
 
         $data = [
             'crumbs' => [
-                ['FInd an author', '/authors/find'],
+                ['Find an author', '/authors/find'],
             ],
             'current' => $author->name,
             'author'  => $author,
