@@ -133,4 +133,36 @@ class Sections extends BaseController
 
         return redirect()->back();
     }
+
+    /**
+     * GET /sections/$sectionId/delete
+     */
+    public function delete(string $sectionId)
+    {
+        $sectionModel = model('SectionModel');
+        $section      = $sectionModel->find($sectionId);
+        if ($section === null) {
+            throw new Exception('Section does not exist');
+        }
+
+        // Check if section still has books
+        if (copyCount($section->section_id) !== 0) {
+            return redirect()
+                ->back()
+                ->with('alert', 'not-empty');
+        }
+
+        // Delete
+        $delete = $sectionModel->delete($section->section_id);
+        if (! $delete) {
+            return redirect()
+                ->with('alert', 'delete-error')
+                ->back();
+        }
+
+        return redirect()
+            ->to('/sections')
+            ->with('sectionId', $section->section_id)
+            ->with('alert', 'delete-success');
+    }
 }
