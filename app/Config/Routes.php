@@ -16,6 +16,7 @@ $routes->get('books/browse', 'Books::browse');
 
 $routes->get('books/(:num)', 'Books::view/$1');
 $routes->post('books/(:num)', 'Books::update/$1');
+$routes->get('books/(:num)/delete', 'Books::delete/$1   ');
 $routes->get('books/new', 'Books::new');
 $routes->post('books/new', 'Books::insert');
 

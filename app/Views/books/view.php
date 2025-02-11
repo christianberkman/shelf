@@ -9,6 +9,7 @@ $this->section('body');
     'no-authors'     => alert('Error', 'A book must have least one author', 'warning'),
     'error-authors'  => alert('Error', 'Error in author information, please check and try again', 'warning'),
     'error-series'   => alert('Error', 'Could not save book series', 'danger'),
+    'delete-error'   => alert('Error', 'Could not delete book', 'danger'),
     default          => null,
 };
 ?>
@@ -103,6 +104,14 @@ $this->section('body');
                 <button type="submit" class="btn btn-success w-100">
                     <?= bi('check'); ?> Save changes
                 </button>
+            </div>
+        </div><!--/row-->
+
+        <div class="row">
+            <div class="col mb-3">
+                <a href="<?=site_url("/books/{$book->book_id}/delete"); ?>" class="btn btn-danger w-100" id="btnDelete">
+                    <?= bi('delete'); ?> Delete Book
+                </a>
             </div>
         </div><!--/row-->
 </form>

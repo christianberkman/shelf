@@ -374,6 +374,26 @@ class Books extends BaseController
     }
 
     /**
+     * GET /books/$bookId/delete
+     */
+    public function delete(int $bookId)
+    {
+        $book = $this->getBook($bookId);
+
+        $delete = bookModel()->delete($book->book_id);
+
+        if ($delete) {
+            return redirect()
+                ->to('/books/find')
+                ->with('alert', 'delete-success');
+        }
+
+        return redirect()
+            ->back()
+            ->with('alert', 'delete-error');
+    }
+
+    /**
      * Sort books by similarity to the search string
      */
     protected function similarSort(array &$books, string $query): void

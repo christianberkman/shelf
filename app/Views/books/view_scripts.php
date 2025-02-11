@@ -183,6 +183,21 @@
                 return false
             }
         })
+
+        /**
+         * Delete
+         */
+        $('#btnDelete').click(function(e) {
+            let confirm = window.confirm('Are you sure you want to delete this book?');
+
+            if (confirm) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
+        })
+
     })
 </script>
 

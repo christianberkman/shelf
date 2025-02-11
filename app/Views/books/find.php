@@ -1,6 +1,10 @@
 <?php
 $this->extend('layout');
 $this->section('body');
+echo match (session('alert')) {
+    'delete-success' => alert('Success', 'Book deleted', 'success'),
+    default          => null,
+};
 ?>
 
 <div class="row">
