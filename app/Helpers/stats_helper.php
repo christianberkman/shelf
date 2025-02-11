@@ -4,7 +4,7 @@ if (! function_exists('bookCount')) {
     /**
      * Get number of books (titles)
      */
-    function bookCount(?string $sectionId = null): ?int
+    function bookCount(?string $sectionId = null): int
     {
         $bookModel = model('BookModel');
 
@@ -14,7 +14,7 @@ if (! function_exists('bookCount')) {
 
         $books = $bookModel->select('count(book_id) as `count`')->asArray()->first();
 
-        return $books['count'];
+        return $books['count'] ?? 0;
     }
 }
 
@@ -22,7 +22,7 @@ if (! function_exists('copyCount')) {
     /**
      * Get number of copies
      */
-    function copyCount(?string $sectionId = null): ?int
+    function copyCount(?string $sectionId = null): int
     {
         $bookModel = model('BookModel');
 
@@ -32,7 +32,7 @@ if (! function_exists('copyCount')) {
 
         $books = $bookModel->select('sum(count) as `count`')->asArray()->first();
 
-        return $books['count'];
+        return $books['count'] ?? 0;
     }
 }
 
