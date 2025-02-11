@@ -3,28 +3,27 @@ $this->extend('layout');
 $this->section('body');
 ?>
 <?= match (session('alert')) {
-    'success'        => alert('Success', 'Saved section details', 'success'),
-    'insert-success' => alert('Success', 'Added new section', 'success'),
-    'error'          => alert('Error', 'Could not save section details', 'danger'),
-    default          => null,
+    'duplicate' => alert('Error', 'A section with this name or ID already exists', 'danger'),
+    'error'     => alert('Error', 'Could not add section <em>' . session('error') . '</em>', 'danger'),
+    default     => null,
 };
 ?>
 
 
 <div class="row">
     <div class="col mb-3">
-        <h1><?= "{$section->name} ({$section->section_id})"; ?></h1>
+        <h1><?= bi('add'); ?> Add Section</h1>
     </div><!--/col-->
 </div><!--/row-->
 
 <form method="post" action="<?= current_url(); ?>">
     <div class="row">
         <div class="col-lg-4 mb-3">
-            <label for="section_id" class="form-label">
+            <label for="name" class="form-label">
                 Section ID
             </label>
 
-            <input type="text" id="section_id" class="form-control" value="<?= $section->section_id; ?>" disabled />
+            <input type="text" id="section_id" name="section_id" class="form-control" value="<?= old('section_id'); ?>" required />
         </div>
     </div>
 
@@ -34,7 +33,7 @@ $this->section('body');
                 Section Name
             </label>
 
-            <input type="text" id="name" name="name" class="form-control" value="<?= $section->name; ?>" />
+            <input type="text" id="name" name="name" class="form-control" value="<?= old('name'); ?>" required />
         </div>
     </div>
 
@@ -44,14 +43,14 @@ $this->section('body');
                 Note
             </label>
 
-            <textarea id="note" name="note" class="form-control w-100" rows="5"><?= nl2br($section->note); ?></textarea>
+            <textarea id="note" name="note" class="form-control w-100" rows="5"><?= old('note'); ?></textarea>
         </div>
     </div>
 
     <div class="row">
         <div class="col=lg=4 mb-4">
             <button type="submit" class="btn btn-primary">
-                <?= bi('check'); ?> Save Changes
+                <?= bi('plus'); ?> Add section
             </button>
         </div>
     </div>

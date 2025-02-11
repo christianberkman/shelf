@@ -84,10 +84,16 @@ $this->section('body');
 
                 <p class="text-center"><?= sectionCount(); ?> sections</p>
 
-                <a href="<?= site_url('sections'); ?>" class="btn btn-outline-primary btn-lg w-100">
+                <a href="<?= site_url('sections'); ?>" class="btn btn-outline-primary btn-lg w-100 mb-3">
                     <?= bi('view'); ?> View sections
                 </a>
+
+                <a href="<?= site_url('sections/new'); ?>" class="btn btn-outline-success btn-lg w-100">
+                    <?= bi('add'); ?> Add a section
+                </a>
+
             </div>
+
         </div><!--/card-->
     </div><!--/col mb-3-->
 

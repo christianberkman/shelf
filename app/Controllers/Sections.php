@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use Throwable;
 
 class Sections extends BaseController
 {
@@ -31,6 +32,66 @@ class Sections extends BaseController
         ];
 
         return view('sections/index', $data);
+    }
+
+    /**
+     * GET /sections/new
+     */
+    public function new()
+    {
+        $data = [
+            'crumbs' => [
+                ['Sections', '/sections'],
+            ],
+            'current' => 'Add section',
+        ];
+
+        return view('sections/new', $data);
+    }
+
+    /**
+     * POST /sections/new
+     */
+    public function insert()
+    {
+        $section             = new \App\Entities\SectionEntity();
+        $section->section_id = $this->request->getPost('section_id');
+        $section->name       = $this->request->getPost('name');
+        $section->note       = $this->request->getPost('note');
+
+        $sectionModel = model('SectionModel');
+
+        // Check if section with name or id already exists
+        $check = $sectionModel
+            ->where('name', $section->name)
+            ->orWhere('section_id', $section->section_id)
+            ->findAll();
+
+        if (count($check) !== 0) {
+            return redirect()
+                ->back()
+                ->with('alert', 'duplicate')
+                ->withInput();
+        }
+
+        try {
+            $sectionId = $sectionModel->insert($section);
+
+            if ($sectionId === false) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('alert', 'error');
+            }
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('alert', 'error')
+                ->with('error', $e->getMessage());
+        }
+
+        return redirect()->to("/sections/{$sectionId}")->with('alert', 'insert-success');
     }
 
     /**

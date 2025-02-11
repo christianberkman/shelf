@@ -36,6 +36,8 @@ $routes->post('authors/new', 'Authors::insert');
  * Sections
  */
 $routes->get('sections', 'Sections::index');
+$routes->get('sections/new', 'Sections::new');
+$routes->post('sections/new', 'Sections::insert');
 $routes->get('sections/(:segment)', 'Sections::view/$1');
 $routes->post('sections/(:segment)', 'Sections::update/$1');
 

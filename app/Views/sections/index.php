@@ -29,4 +29,12 @@
     <?php endforeach; ?>
 </div><!--row-cols-->
 
+<div class="row">
+    <div class="col mb-3">
+        <a href="<?= site_url('sections/new'); ?>" class="btn btn-outline-success btn-lg w-100">
+            <?= bi('add'); ?> Add a section
+        </a>
+    </div><!--/col-->
+</div><!--/row-->
+
 <?php $this->endSection(); ?>
